@@ -34,12 +34,10 @@ public class Parser {
                 return;
             }
 
-            while (nBuildingPlans > 0) {
+            for (int i = 0; i < nBuildingPlans; i++) {
 
-                if (!this.parseBuilding(bufRead))
+                if (!this.parseBuilding(bufRead, i))
                     return;
-
-                nBuildingPlans--;
 
             }
 
@@ -70,7 +68,7 @@ public class Parser {
 
     }
 
-    public boolean parseBuilding(BufferedReader bufRead) throws IOException {
+    public boolean parseBuilding(BufferedReader bufRead, int nProject) throws IOException {
 
         String myLine = null;
 
@@ -105,9 +103,9 @@ public class Parser {
 
         //adding project to city plan
         if(type.equals("R"))
-            this.cityPlan.addResidentialProject(new ResidentialProject(rows, columns, capacityORtype, occupiedCells));
+            this.cityPlan.addResidentialProject(new ResidentialProject(nProject, rows, columns, capacityORtype, occupiedCells));
         else if(type.equals("U"))
-            this.cityPlan.addUtilityProject(new UtilityProject(rows, columns, capacityORtype, occupiedCells));
+            this.cityPlan.addUtilityProject(new UtilityProject(nProject, rows, columns, capacityORtype, occupiedCells));
         else
             return false;
 
