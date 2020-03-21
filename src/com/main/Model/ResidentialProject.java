@@ -1,12 +1,18 @@
 package com.main.Model;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 
 public class ResidentialProject extends Project {
-    int r; //residential capacity of the building
+    int capacity; //residential capacity of the building
 
-    public ResidentialProject(int nProject, int rows, int columns, int r, ArrayList<ArrayList<Integer>> occupiedCells) {
+    public ResidentialProject(int nProject, int rows, int columns, int capacity, ArrayList<Pair<Integer, Integer>> occupiedCells) {
         super(nProject, rows, columns, occupiedCells);
-        this.r = r;
+        this.capacity = capacity;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 }

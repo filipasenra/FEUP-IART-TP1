@@ -8,8 +8,7 @@ public class Problem {
     int columns;
     int maximumWalkingDistance;
 
-    ArrayList<ResidentialProject> residentialProjects = new ArrayList<>();
-    ArrayList<UtilityProject> utilityProjects = new ArrayList<>();
+    ArrayList<Project> projects = new ArrayList<>();
 
     public Problem(int rows, int columns, int maximumWalkingDistance) {
         this.rows = rows;
@@ -17,19 +16,23 @@ public class Problem {
         this.maximumWalkingDistance = maximumWalkingDistance;
     }
 
-    public void addResidentialProject(ResidentialProject rp){
-        this.residentialProjects.add(rp);
-    }
-
-    public void addUtilityProject(UtilityProject up){
-        this.utilityProjects.add(up);
+    public void addProject(Project rp){
+        this.projects.add(rp);
     }
 
     public int getMaximumWalkingDistance() {
         return maximumWalkingDistance;
     }
 
-    public ArrayList<ResidentialProject> getResidentialProjects() {
-        return residentialProjects;
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
+
+    public ArrayList<Project> getProjects() {
+        return projects;
     }
 }

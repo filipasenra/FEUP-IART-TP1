@@ -3,6 +3,7 @@ package com.main.Parser;
 import com.main.Model.Problem;
 import com.main.Model.ResidentialProject;
 import com.main.Model.UtilityProject;
+import javafx.util.Pair;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -81,27 +82,29 @@ public class Parser {
 
 
         //parse occupied cells
-        ArrayList<ArrayList<Integer>> occupiedCells = new ArrayList<>();
+        ArrayList<Pair<Integer, Integer>> occupiedCells = new ArrayList<>();
         for(int i = 0; i < rows; i++){
 
             if((myLine = bufRead.readLine()) == null)
                 return false;
 
-            String[] occupiedCellsLine = myLine.split(" ");
+            String[] occupiedCellsLine = myLine.split("");
 
             for(int j = 0; j < occupiedCellsLine.length; j++){
 
                 if(occupiedCellsLine[j].equals("#"))
-                    occupiedCells.add(new ArrayList<>(Arrays.asList(i, j)));
+                {
+                    occupiedCells.add(new Pair(i, j));
+                }
             }
 
         }
 
         //adding project to city plan
         if(type.equals("R"))
-            this.problem.addResidentialProject(new ResidentialProject(nProject, rows, columns, capacityORtype, occupiedCells));
+            this.problem.addProject(new ResidentialProject(nProject, rows, columns, capacityORtype, occupiedCells));
         else if(type.equals("U"))
-            this.problem.addUtilityProject(new UtilityProject(nProject, rows, columns, capacityORtype, occupiedCells));
+            this.problem.addProject(new UtilityProject(nProject, rows, columns, capacityORtype, occupiedCells));
         else
             return false;
 

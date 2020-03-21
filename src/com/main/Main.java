@@ -1,6 +1,8 @@
 package com.main;
 
+import com.main.Algorithms.GeneticAlgorithm;
 import com.main.Parser.Parser;
+import com.sun.javafx.scene.traversal.Algorithm;
 
 public class Main {
 
@@ -9,7 +11,7 @@ public class Main {
         Parser parser = new Parser("./src/com/main/inputFiles/a_example.in");
 
         parser.parseFile();
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(parser.getProblem());
 
-        System.out.println(parser.getProblem().getResidentialProjects().get(0).getnProject());
     }
 }
