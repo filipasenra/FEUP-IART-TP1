@@ -10,6 +10,6 @@ public class Main {
 
         parser.parseFile();
 
-        System.out.println(parser.getCityPlan().getResidentialProjects().get(0).getnProject());
+        System.out.println(parser.getProblem().getResidentialProjects().get(0).getnProject());
     }
 }

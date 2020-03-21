@@ -1,11 +1,10 @@
 package com.main.Parser;
 
-import com.main.Model.CityPlan;
+import com.main.Model.Problem;
 import com.main.Model.ResidentialProject;
 import com.main.Model.UtilityProject;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.Arrays;
 
 public class Parser {
     String file;
-    CityPlan cityPlan;
+    Problem problem;
 
     public Parser(String file) {
 
@@ -27,10 +26,9 @@ public class Parser {
         try {
             FileReader input = new FileReader(file);
             BufferedReader bufRead = new BufferedReader(input);
-            String myLine = null;
 
             int nBuildingPlans;
-            if ((nBuildingPlans = parseCityPlan(bufRead)) == -1) {
+            if ((nBuildingPlans = parseProblem(bufRead)) == -1) {
                 return;
             }
 
@@ -41,36 +39,34 @@ public class Parser {
 
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public int parseCityPlan(BufferedReader bufRead) throws IOException {
+    public int parseProblem(BufferedReader bufRead) throws IOException {
 
-        String myLine = null;
+        String myLine;
         myLine = bufRead.readLine();
 
         if (myLine == null)
             return -1;
 
-        String[] cityPlanCharacteristics = myLine.split(" ");
+        String[] problemCharacteristics = myLine.split(" ");
 
-        if (cityPlanCharacteristics.length != 4)
+        if (problemCharacteristics.length != 4)
             return -1;
 
-        this.cityPlan = new CityPlan(Integer.parseInt(cityPlanCharacteristics[0]), Integer.parseInt(cityPlanCharacteristics[1]), Integer.parseInt(cityPlanCharacteristics[2]));
+        this.problem = new Problem(Integer.parseInt(problemCharacteristics[0]), Integer.parseInt(problemCharacteristics[1]), Integer.parseInt(problemCharacteristics[2]));
 
-        return Integer.parseInt(cityPlanCharacteristics[3]);
+        return Integer.parseInt(problemCharacteristics[3]);
 
     }
 
     public boolean parseBuilding(BufferedReader bufRead, int nProject) throws IOException {
 
-        String myLine = null;
+        String myLine;
 
         //parse main info
         if((myLine = bufRead.readLine()) == null)
@@ -85,7 +81,7 @@ public class Parser {
 
 
         //parse occupied cells
-        ArrayList<ArrayList<Integer>> occupiedCells = new ArrayList<ArrayList<Integer>>();
+        ArrayList<ArrayList<Integer>> occupiedCells = new ArrayList<>();
         for(int i = 0; i < rows; i++){
 
             if((myLine = bufRead.readLine()) == null)
@@ -95,24 +91,24 @@ public class Parser {
 
             for(int j = 0; j < occupiedCellsLine.length; j++){
 
-                if(occupiedCellsLine[j] == "#")
-                    occupiedCells.add(new ArrayList<Integer>(Arrays.asList(i, j)));
+                if(occupiedCellsLine[j].equals("#"))
+                    occupiedCells.add(new ArrayList<>(Arrays.asList(i, j)));
             }
 
         }
 
         //adding project to city plan
         if(type.equals("R"))
-            this.cityPlan.addResidentialProject(new ResidentialProject(nProject, rows, columns, capacityORtype, occupiedCells));
+            this.problem.addResidentialProject(new ResidentialProject(nProject, rows, columns, capacityORtype, occupiedCells));
         else if(type.equals("U"))
-            this.cityPlan.addUtilityProject(new UtilityProject(nProject, rows, columns, capacityORtype, occupiedCells));
+            this.problem.addUtilityProject(new UtilityProject(nProject, rows, columns, capacityORtype, occupiedCells));
         else
             return false;
 
         return true;
     }
 
-    public CityPlan getCityPlan() {
-        return cityPlan;
+    public Problem getProblem() {
+        return problem;
     }
 }

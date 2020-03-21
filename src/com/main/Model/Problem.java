@@ -2,16 +2,16 @@ package com.main.Model;
 
 import java.util.ArrayList;
 
-public class CityPlan {
+public class Problem {
 
     int rows;
     int columns;
     int maximumWalkingDistance;
 
-    ArrayList<ResidentialProject> residentialProjects = new ArrayList<ResidentialProject>();
-    ArrayList<UtilityProject> utilityProjects = new ArrayList<UtilityProject>();
+    ArrayList<ResidentialProject> residentialProjects = new ArrayList<>();
+    ArrayList<UtilityProject> utilityProjects = new ArrayList<>();
 
-    public CityPlan(int rows, int columns, int maximumWalkingDistance) {
+    public Problem(int rows, int columns, int maximumWalkingDistance) {
         this.rows = rows;
         this.columns = columns;
         this.maximumWalkingDistance = maximumWalkingDistance;
