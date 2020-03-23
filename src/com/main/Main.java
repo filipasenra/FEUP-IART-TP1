@@ -12,6 +12,6 @@ public class Main {
 
         parser.parseFile();
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(parser.getProblem());
-
+        geneticAlgorithm.performAlgorithm();
     }
 }
