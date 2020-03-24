@@ -90,35 +90,66 @@ public class CityPlan {
         this.fitness = 0;
 
         int minimumManhattanDistance = this.problem.getMaximumWalkingDistance();
-        this.gridMap.forEach((location, id) -> {
+        this.gridMap.forEach((location, idResidential) -> {
 
-            if (this.problem.getProjects().get(id).getClass() != ResidentialProject.class)
+            if (this.problem.getProjects().get(idResidential).getClass() != ResidentialProject.class)
                 return;
 
             for (int i = 0; i < minimumManhattanDistance; i++) {
-                for (int j = 0; j < i; j++) {
 
-                    if (!this.gridMap.contains(new Pair<>(i, j)))
-                        continue;
+                int j = minimumManhattanDistance - i;
+                Pair<Integer, Integer> newLocation = new Pair<>(i + location.getKey(), j + location.getValue());
 
-                    int idOfBuilding = this.gridMap.get(new Pair<>(i, j));
-                    if (this.problem.getProjects().get(idOfBuilding).getClass() != UtilityProject.class)
-                        continue;
+                this.addFitness(newLocation, idResidential, typeOfServicesPerResidential);
 
-                    UtilityProject utilityProject = (UtilityProject) this.problem.getProjects().get(idOfBuilding);
+                Pair<Integer, Integer> newLocation1 = new Pair<>(-newLocation.getKey(), newLocation.getValue());
+                this.addFitness(newLocation1, idResidential, typeOfServicesPerResidential);
 
-                    if (!typeOfServicesPerResidential.contains(new Pair<>(id, utilityProject.getTypeOfService()))) {
+                Pair<Integer, Integer> newLocation2 = new Pair<>(newLocation.getKey(), -newLocation.getValue());
+                this.addFitness(newLocation2, idResidential, typeOfServicesPerResidential);
 
-                        ResidentialProject residentialProject = (ResidentialProject) this.problem.getProjects().get(id);
-                        this.fitness += residentialProject.getCapacity();
-                        typeOfServicesPerResidential.add(new Pair<>(id, utilityProject.getTypeOfService()));
 
-                    }
+                Pair<Integer, Integer> newLocation3 = new Pair<>(-newLocation.getKey(), -newLocation.getValue());
+                this.addFitness(newLocation3, idResidential, typeOfServicesPerResidential);
 
-                }
             }
         });
 
+
+    }
+
+    private void addFitness(Pair<Integer, Integer> location, int idResidential, ArrayList<Pair<Integer, Integer>> typeOfServicesPerResidential) {
+
+        if (this.isUtilityInRange(location)) {
+            int idUtility = this.gridMap.get(location);
+            this.addUtilityToResidential(idResidential, idUtility, typeOfServicesPerResidential);
+        }
+    }
+
+    private boolean isUtilityInRange(Pair<Integer, Integer> location) {
+
+        if (!this.gridMap.contains(location))
+            return false;
+
+        int idOfBuilding = this.gridMap.get(location);
+        if (this.problem.getProjects().get(idOfBuilding).getClass() != UtilityProject.class)
+            return false;
+
+        return true;
+
+    }
+
+    private void addUtilityToResidential(int idResidential, int idUtility, ArrayList<Pair<Integer, Integer>> typeOfServicesPerResidential) {
+
+        UtilityProject utilityProject = (UtilityProject) this.problem.getProjects().get(idUtility);
+
+        if (!typeOfServicesPerResidential.contains(new Pair<>(idResidential, utilityProject.getTypeOfService()))) {
+
+            ResidentialProject residentialProject = (ResidentialProject) this.problem.getProjects().get(idResidential);
+            this.fitness += residentialProject.getCapacity();
+            typeOfServicesPerResidential.add(new Pair<>(idResidential, utilityProject.getTypeOfService()));
+
+        }
 
     }
 
