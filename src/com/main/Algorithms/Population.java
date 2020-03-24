@@ -6,6 +6,9 @@ import com.main.Model.Problem;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Population {
 
@@ -13,12 +16,21 @@ public class Population {
 
     public Population(int populationSize, Problem problem) {
 
-        while(populationSize > 0) {
-            populationSize--;
+        ExecutorService es = Executors.newCachedThreadPool();
+        for(int i = 0; i < populationSize; i++) {
 
             Individual individual = new Individual(problem);
+            /*es.execute(() -> {individual.initiateGrid();});*/
             individual.initiateGrid();
             population.add(individual);
+        }
+        es.shutdown();
+
+        try {
+            es.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.exit(-1);
         }
     }
 
@@ -28,6 +40,7 @@ public class Population {
 
     public void sortPopulation() {
         Collections.sort(this.population, Comparator.comparing(Individual::getFitness));
+        Collections.reverse(this.population);
     }
 
     public void setPopulation(ArrayList<Individual> population) {

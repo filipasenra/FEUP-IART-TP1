@@ -3,6 +3,8 @@ package com.main.Model;
 import javafx.util.Pair;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static java.lang.Math.abs;
 
@@ -10,24 +12,19 @@ public class CityPlan {
 
     protected Problem problem;
     protected Hashtable<Pair<Integer, Integer>, Integer> gridMap = new Hashtable<>();
-    protected Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePosition = new Hashtable<>();
-    protected int fitness = 0;
+    protected Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionUtility = new Hashtable<>();
+    protected Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionResidential = new Hashtable<>();
+    protected int fitness;
 
 
     public CityPlan(Problem problem) {
         this.problem = problem;
-    }
-
-    public CityPlan(Hashtable<Pair<Integer, Integer>, Integer> gridMap, Problem problem) {
-
-        this(problem);
-        this.gridMap = gridMap;
+        this.fitness = 0;
     }
 
 
     public void initiateGrid() {
         Random rand = new Random();
-
 
         for (int i = 0; i < this.problem.getRows(); i++) {
 
@@ -42,7 +39,6 @@ public class CityPlan {
                 if (checkIfCompilable(project, new Pair<>(i, j))) {
                     addProject(project, new Pair<>(i, j));
                 }
-
 
             }
         }
@@ -69,6 +65,13 @@ public class CityPlan {
 
     public void addProject(Project project, Pair<Integer, Integer> location) {
 
+        if (project.getClass() == ResidentialProject.class)
+            this.mapAbsolutePositionResidential.put(location, project.getnProject());
+        if (project.getClass() == UtilityProject.class)
+            this.mapAbsolutePositionUtility.put(location, project.getnProject());
+        else
+            return;
+
         ArrayList<Pair<Integer, Integer>> occupiedCells = project.getOccupiedCells();
 
         for (Pair<Integer, Integer> locationOfOccupiedCell : occupiedCells) {
@@ -80,45 +83,58 @@ public class CityPlan {
             this.gridMap.put(newLocation, project.getnProject());
         }
 
-        this.mapAbsolutePosition.put(location, project.getnProject());
-
     }
 
     public void calculateFitness() {
-        ArrayList<Pair<Integer, Integer>> typeOfServicesPerResidential = new ArrayList<>();
-
         this.fitness = 0;
-
         int minimumManhattanDistance = this.problem.getMaximumWalkingDistance();
-        this.gridMap.forEach((location, idResidential) -> {
 
-            if (this.problem.getProjects().get(idResidential).getClass() != ResidentialProject.class)
-                return;
+        //Loop thought all the residential projects in the city
+        this.mapAbsolutePositionResidential.forEach((absoluteLocation, idResidential) -> {
 
-            for (int i = 0; i < minimumManhattanDistance; i++) {
+            //List to save the amenities available to this residential projects
+            ArrayList<Integer> typeOfServicesPerResidential = new ArrayList<>();
 
-                int j = minimumManhattanDistance - i;
-                Pair<Integer, Integer> newLocation = new Pair<>(i + location.getKey(), j + location.getValue());
+            //Residential Project
+            ResidentialProject residentialProject = (ResidentialProject) this.problem.getProjects().get(idResidential);
 
-                this.addFitness(newLocation, idResidential, typeOfServicesPerResidential);
+            //Occupied Cells of Residential Project
+            ArrayList<Pair<Integer, Integer>> occupiedCells = residentialProject.getOccupiedCells();
 
-                Pair<Integer, Integer> newLocation1 = new Pair<>(-newLocation.getKey(), newLocation.getValue());
-                this.addFitness(newLocation1, idResidential, typeOfServicesPerResidential);
+            //Let's check if there is any amenity nearby (less than the manhattan distance)
+            for (Pair<Integer, Integer> occupiedCell : occupiedCells) {
 
-                Pair<Integer, Integer> newLocation2 = new Pair<>(newLocation.getKey(), -newLocation.getValue());
-                this.addFitness(newLocation2, idResidential, typeOfServicesPerResidential);
+                //Location of the occupiedCell in the city
+                Pair<Integer, Integer> location = new Pair<>(
+                        absoluteLocation.getKey() + occupiedCell.getKey(),
+                        (absoluteLocation.getValue() + occupiedCell.getValue()));
 
+                //Check all the cells in the perimeter of the minimum Manhattan Distance
+                for (int x = 0; x <= minimumManhattanDistance; x++) {
 
-                Pair<Integer, Integer> newLocation3 = new Pair<>(-newLocation.getKey(), -newLocation.getValue());
-                this.addFitness(newLocation3, idResidential, typeOfServicesPerResidential);
+                    for (int y = 0; y <= x; y++) {
 
+                        Pair<Integer, Integer> newLocation = new Pair<>(x + location.getKey(), y + location.getValue());
+                        this.addFitness(newLocation, idResidential, typeOfServicesPerResidential);
+
+                        Pair<Integer, Integer> newLocation1 = new Pair<>(-x + location.getKey(), newLocation.getValue());
+                        this.addFitness(newLocation1, idResidential, typeOfServicesPerResidential);
+
+                        Pair<Integer, Integer> newLocation2 = new Pair<>(newLocation.getKey(), -y + location.getValue());
+                        this.addFitness(newLocation2, idResidential, typeOfServicesPerResidential);
+
+                        Pair<Integer, Integer> newLocation3 = new Pair<>(-x + location.getKey(), -y + location.getValue());
+                        this.addFitness(newLocation3, idResidential, typeOfServicesPerResidential);
+
+                    }
+
+                }
             }
         });
-
-
     }
 
-    private void addFitness(Pair<Integer, Integer> location, int idResidential, ArrayList<Pair<Integer, Integer>> typeOfServicesPerResidential) {
+    //Adds the Fitness of this cell (if it has any unique amenity)
+    private void addFitness(Pair<Integer, Integer> location, int idResidential, ArrayList<Integer> typeOfServicesPerResidential) {
 
         if (this.isUtilityInRange(location)) {
             int idUtility = this.gridMap.get(location);
@@ -126,9 +142,10 @@ public class CityPlan {
         }
     }
 
+    //Checks if the location is an Utility Project
     private boolean isUtilityInRange(Pair<Integer, Integer> location) {
 
-        if (!this.gridMap.contains(location))
+        if (!this.gridMap.containsKey(location))
             return false;
 
         int idOfBuilding = this.gridMap.get(location);
@@ -139,18 +156,18 @@ public class CityPlan {
 
     }
 
-    private void addUtilityToResidential(int idResidential, int idUtility, ArrayList<Pair<Integer, Integer>> typeOfServicesPerResidential) {
+    //Adds Utility to the Residential Building and adds its fitness
+    private void addUtilityToResidential(int idResidential, int idUtility, ArrayList<Integer> typeOfServicesPerResidential) {
 
         UtilityProject utilityProject = (UtilityProject) this.problem.getProjects().get(idUtility);
 
-        if (!typeOfServicesPerResidential.contains(new Pair<>(idResidential, utilityProject.getTypeOfService()))) {
+        //If we already accounted for this type of service, we shouldn't do it again
+        if (typeOfServicesPerResidential.contains(utilityProject.typeOfService))
+            return;
 
-            ResidentialProject residentialProject = (ResidentialProject) this.problem.getProjects().get(idResidential);
-            this.fitness += residentialProject.getCapacity();
-            typeOfServicesPerResidential.add(new Pair<>(idResidential, utilityProject.getTypeOfService()));
-
-        }
-
+        ResidentialProject residentialProject = (ResidentialProject) this.problem.getProjects().get(idResidential);
+        this.fitness += residentialProject.getCapacity();
+        typeOfServicesPerResidential.add(utilityProject.getTypeOfService());
     }
 
     private int manhattanDistance(Pair<Integer, Integer> location1, Pair<Integer, Integer> location2) {
@@ -162,17 +179,21 @@ public class CityPlan {
         return fitness;
     }
 
-    public Hashtable<Pair<Integer, Integer>, Integer> getMapAbsolutePosition() {
-        return mapAbsolutePosition;
+    public Hashtable<Pair<Integer, Integer>, Integer> getMapAbsolutePositionUtility() {
+        return mapAbsolutePositionUtility;
+    }
+
+    public Hashtable<Pair<Integer, Integer>, Integer> getMapAbsolutePositionResidential() {
+        return mapAbsolutePositionResidential;
     }
 
     @Override
     public String toString() {
         return "CityPlan{" +
                 "problem=" + problem +
-                ", gridMap=" + gridMap +
-                ", mapAbsolutePosition=" + mapAbsolutePosition +
-                ", fitness=" + fitness +
+                ", mapAbsolutePositionUtility=" + mapAbsolutePositionUtility +
+                ", mapAbsolutePositionResidential=" + mapAbsolutePositionResidential +
+                ", \nfitness=" + fitness +
                 '}';
     }
 }

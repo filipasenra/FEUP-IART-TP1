@@ -11,14 +11,16 @@ public class GeneticAlgorithm {
 
     Problem problem;
     Population population;
-    int sizePopulation = 100;
+    int sizePopulation;
 
-    public GeneticAlgorithm(Problem problem) {
+    public GeneticAlgorithm(Problem problem, int sizePopulation) {
         this.problem = problem;
+        this.sizePopulation = sizePopulation;
         this.population = new Population(this.sizePopulation, problem);
+        this.population.sortPopulation();
     }
 
-    public boolean performAlgorithm() {
+    private boolean performIteration() {
 
         double percentageToKeep = 0.1;
         double percentageToMate = 0.5;
@@ -43,11 +45,24 @@ public class GeneticAlgorithm {
         for(int i = 0; i < this.sizePopulation*(1-percentageToMutate); i++) {
 
             Individual individualToMutate = newPopulation.getPopulation().get(rand.nextInt(newPopulation.getPopulation().size()));
-            individualToMutate.mutate();
+            individualToMutate.mutate(10);
         }
 
-        //System.out.println(this.population.toString());
+        this.population = newPopulation;
+        this.population.sortPopulation();
+
         return false;
+    }
+
+    public void performAlgorithm(int nRepeat) {
+
+        System.out.println(this.population.toString());
+
+        for(int i = 0; i < nRepeat; i++) {
+            this.performIteration();
+        }
+
+        System.out.println(this.population.toString());
     }
 
 }

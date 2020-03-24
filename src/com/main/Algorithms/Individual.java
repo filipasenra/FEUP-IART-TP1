@@ -13,38 +13,47 @@ public class Individual extends CityPlan {
         super(problem);
     }
 
-    public Individual(Hashtable<Pair<Integer, Integer>, Integer> gridMap, Problem problem) {
-        super(gridMap, problem);
-    }
-
     public Individual crossOver(Individual individual) {
 
+
         Individual mutatedIndividual = new Individual(problem);
+
+        crossOverSpecificType(mutatedIndividual, this.mapAbsolutePositionUtility, individual.mapAbsolutePositionUtility);
+        crossOverSpecificType(mutatedIndividual, this.mapAbsolutePositionResidential, individual.mapAbsolutePositionResidential);
+
+        mutatedIndividual.calculateFitness();
+
+        return mutatedIndividual;
+
+    }
+
+    public void crossOverSpecificType(Individual mutatedIndividual, Hashtable<Pair<Integer, Integer>, Integer> currentAbsoluteLocation, Hashtable<Pair<Integer, Integer>, Integer> individualAbsoluteLocation){
 
         Random rand = new Random();
 
         Set<Pair<Integer, Integer>> primeKeys = new HashSet<>();
-        primeKeys.addAll(this.mapAbsolutePosition.keySet());
-        primeKeys.addAll(this.mapAbsolutePosition.keySet());
 
-        for (Pair<Integer, Integer> location : primeKeys) {
+        primeKeys.addAll(currentAbsoluteLocation.keySet());
+        primeKeys.addAll(individualAbsoluteLocation.keySet());
+
+        for(Pair<Integer, Integer> location: primeKeys) {
 
             int idProject;
-            boolean currentHasLocation = this.mapAbsolutePosition.contains(location);
-            boolean individualHasLocation = individual.getMapAbsolutePosition().contains(location);
+            boolean currentHasLocation = currentAbsoluteLocation.containsKey(location);
+            boolean individualHasLocation = individualAbsoluteLocation.containsKey(location);
 
             if (currentHasLocation && individualHasLocation) {
 
                 if (rand.nextBoolean()) {
-                    idProject = this.mapAbsolutePosition.get(location);
+                    idProject = currentAbsoluteLocation.get(location);
                 } else {
-                    idProject = individual.getMapAbsolutePosition().get(location);
+                    idProject = individualAbsoluteLocation.get(location);
                 }
 
             } else if (currentHasLocation) {
-                idProject = this.mapAbsolutePosition.get(location);
+                idProject = currentAbsoluteLocation.get(location);
             } else if (individualHasLocation) {
-                idProject = individual.getMapAbsolutePosition().get(location);
+                idProject = individualAbsoluteLocation.get(location);
             } else {
                 continue;
             }
@@ -54,31 +63,25 @@ public class Individual extends CityPlan {
             }
 
         }
-
-        mutatedIndividual.calculateFitness();
-        return mutatedIndividual;
-
     }
 
-    public void mutate() {
+    public void mutate(int nGenes) {
 
         Random rand = new Random();
 
-        for (int i = 0; i < this.problem.getRows(); i++) {
+        for(int i = 0; i < nGenes; i++){
 
-            for (int j = 0; j < this.problem.getColumns(); j++) {
+            int x = rand.nextInt(this.problem.getRows());
+            int y = rand.nextInt(this.problem.getColumns());
 
-                if (gridMap.containsKey(new Pair<>(i, j))) {
-                    continue;
-                }
+            if (gridMap.containsKey(new Pair<>(x, y))) {
+                continue;
+            }
 
-                Project project = this.problem.getProjects().get(rand.nextInt(this.problem.getProjects().size()));
+            Project project = this.problem.getProjects().get(rand.nextInt(this.problem.getProjects().size()));
 
-                if (checkIfCompilable(project, new Pair<>(i, j))) {
-                    addProject(project, new Pair<>(i, j));
-                }
-
-
+            if (checkIfCompilable(project, new Pair<>(x, y))) {
+                addProject(project, new Pair<>(x, y));
             }
         }
 
