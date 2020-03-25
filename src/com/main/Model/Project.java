@@ -25,4 +25,12 @@ public class Project {
     public ArrayList<Pair<Integer, Integer>> getOccupiedCells() {
         return occupiedCells;
     }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
+    }
 }

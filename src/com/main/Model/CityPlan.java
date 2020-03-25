@@ -48,6 +48,12 @@ public class CityPlan {
 
     public boolean checkIfCompilable(Project project, Pair<Integer, Integer> location) {
 
+        if((location.getKey()+project.getColumns()) > (this.problem.getColumns() - 1))
+            return false;
+
+        if((location.getValue()+project.getRows()) > (this.problem.getRows() - 1))
+            return false;
+
         ArrayList<Pair<Integer, Integer>> occupiedCells = project.getOccupiedCells();
 
         for (Pair<Integer, Integer> locationOfOccupiedCell : occupiedCells) {
