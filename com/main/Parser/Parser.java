@@ -59,7 +59,7 @@ public class Parser {
         if (problemCharacteristics.length != 4)
             return -1;
 
-        this.problem = new Problem(Integer.parseInt(problemCharacteristics[1]), Integer.parseInt(problemCharacteristics[0]), Integer.parseInt(problemCharacteristics[2]));
+        this.problem = new Problem(Integer.parseInt(problemCharacteristics[0]), Integer.parseInt(problemCharacteristics[1]), Integer.parseInt(problemCharacteristics[2]));
 
         return Integer.parseInt(problemCharacteristics[3]);
 

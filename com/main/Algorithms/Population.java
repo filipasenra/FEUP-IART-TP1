@@ -20,8 +20,7 @@ public class Population {
         for(int i = 0; i < populationSize; i++) {
 
             Individual individual = new Individual(problem);
-            /*es.execute(() -> {individual.initiateGrid();});*/
-            individual.initiateGrid();
+            es.execute(() -> {individual.initiateGrid();});
             population.add(individual);
         }
         es.shutdown();

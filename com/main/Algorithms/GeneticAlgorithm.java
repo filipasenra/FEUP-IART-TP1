@@ -75,7 +75,7 @@ public class GeneticAlgorithm {
 
     public void printSolution() {
 
-        System.out.println(this.population.getPopulation().get(0).toString());
-        System.out.println("Fitness: " + this.population.getPopulation().get(0).getFitness());
+        System.out.print(this.population.getPopulation().get(0).toString());
+        System.out.println("Fitness: " + this.population.getPopulation().get(0).getFitness() + "\n");
     }
 }

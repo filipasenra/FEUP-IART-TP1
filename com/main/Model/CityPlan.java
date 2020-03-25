@@ -12,14 +12,13 @@ public class CityPlan {
     protected Hashtable<Pair<Integer, Integer>, Integer> gridMap = new Hashtable<>();
     protected Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionUtility = new Hashtable<>();
     protected Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionResidential = new Hashtable<>();
-    protected int fitness;
+    protected int fitness = 0;
 
+    //Pair<Row, Col>
 
     public CityPlan(Problem problem) {
         this.problem = problem;
-        this.fitness = 0;
     }
-
 
     public void initiateGrid() {
         Random rand = new Random();
@@ -34,7 +33,7 @@ public class CityPlan {
 
                 Project project = this.problem.getProjects().get(rand.nextInt(this.problem.getProjects().size()));
 
-                if (checkIfCompilable(project, new Pair<>(i, j))) {
+                if (checkIfCompatible(project, new Pair<>(i, j))) {
                     addProject(project, new Pair<>(i, j));
                 }
 
@@ -44,12 +43,15 @@ public class CityPlan {
         this.calculateFitness();
     }
 
-    public boolean checkIfCompilable(Project project, Pair<Integer, Integer> location) {
+    public boolean checkIfCompatible(Project project, Pair<Integer, Integer> location) {
 
-        if((location.getKey()+project.getColumns()) > (this.problem.getColumns() - 1))
+        int maxRow = location.getKey()+project.getRows();
+        int maxCol = location.getValue()+project.getColumns();
+
+        if(maxCol > this.problem.getColumns())
             return false;
 
-        if((location.getValue()+project.getRows()) > (this.problem.getRows() - 1))
+        if(maxRow > this.problem.getRows())
             return false;
 
         ArrayList<Pair<Integer, Integer>> occupiedCells = project.getOccupiedCells();
@@ -96,7 +98,7 @@ public class CityPlan {
         //Loop thought all the residential projects in the city
         this.mapAbsolutePositionResidential.forEach((absoluteLocation, idResidential) -> {
 
-            //List to save the amenities available to this residential projects
+            //List to save the amenities available to this residential projects //
             ArrayList<Integer> typeOfServicesPerResidential = new ArrayList<>();
 
             //Residential Project
@@ -200,8 +202,8 @@ public class CityPlan {
 
         String output = "";
 
-        for (int i=0; i<this.problem.getColumns(); i++) {
-            for (int j=0; j<this.problem.getRows(); j++) {
+        for (int i=0; i<this.problem.getRows(); i++) {
+            for (int j=0; j<this.problem.getColumns(); j++) {
 
                 Pair<Integer, Integer> location = new Pair<>(i, j);
 

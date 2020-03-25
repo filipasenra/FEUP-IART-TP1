@@ -58,7 +58,7 @@ public class Individual extends CityPlan {
                 continue;
             }
 
-            if (mutatedIndividual.checkIfCompilable(problem.getProjects().get(idProject), location)) {
+            if (mutatedIndividual.checkIfCompatible(problem.getProjects().get(idProject), location)) {
                 mutatedIndividual.addProject(problem.getProjects().get(idProject), location);
             }
 
@@ -80,7 +80,7 @@ public class Individual extends CityPlan {
 
             Project project = this.problem.getProjects().get(rand.nextInt(this.problem.getProjects().size()));
 
-            if (checkIfCompilable(project, new Pair<>(x, y))) {
+            if (checkIfCompatible(project, new Pair<>(x, y))) {
                 addProject(project, new Pair<>(x, y));
             } else {
                 i--;
