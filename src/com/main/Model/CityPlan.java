@@ -48,10 +48,10 @@ public class CityPlan {
 
     public boolean checkIfCompilable(Project project, Pair<Integer, Integer> location) {
 
-        if((location.getKey()+project.getColumns()) > (this.problem.getColumns() - 1))
+        if((location.getKey()+project.getColumns()) > (this.problem.getColumns() - 2))
             return false;
 
-        if((location.getValue()+project.getRows()) > (this.problem.getRows() - 1))
+        if((location.getValue()+project.getRows()) > (this.problem.getRows() - 2))
             return false;
 
         ArrayList<Pair<Integer, Integer>> occupiedCells = project.getOccupiedCells();
@@ -191,6 +191,10 @@ public class CityPlan {
 
     public Hashtable<Pair<Integer, Integer>, Integer> getMapAbsolutePositionResidential() {
         return mapAbsolutePositionResidential;
+    }
+
+    public Hashtable<Pair<Integer, Integer>, Integer> getGridMap() {
+        return gridMap;
     }
 
     @Override

@@ -2,8 +2,10 @@ package com.main.Algorithms;
 
 import com.main.Model.CityPlan;
 import com.main.Model.Problem;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -65,6 +67,14 @@ public class GeneticAlgorithm {
         }
 
         System.out.println(this.population.toString());
+    }
+
+    public Problem getProblem() {
+        return this.problem;
+    }
+
+    public Hashtable<Pair<Integer, Integer>, Integer> getSolution () {
+        return this.population.getPopulation().get(0).getGridMap();
     }
 
 }
