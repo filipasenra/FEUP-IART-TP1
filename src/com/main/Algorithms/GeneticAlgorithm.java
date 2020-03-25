@@ -42,9 +42,11 @@ public class GeneticAlgorithm {
             newPopulation.addIndividual(offspring);
         }
 
+        //Elitism Keep the percentage of IndividualsToKeep
         for(int i = 0; i < this.sizePopulation*(1-percentageToMutate); i++) {
 
-            Individual individualToMutate = newPopulation.getPopulation().get(rand.nextInt(newPopulation.getPopulation().size()));
+            int n = rand.nextInt(newPopulation.getPopulation().size());
+            Individual individualToMutate = newPopulation.getPopulation().get(n);
             individualToMutate.mutate(10);
         }
 
