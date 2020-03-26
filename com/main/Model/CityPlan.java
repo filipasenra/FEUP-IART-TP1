@@ -190,10 +190,7 @@ public class CityPlan {
 
         int idOfBuilding = this.gridMap.get(location);
 
-        if (this.problem.getProjects().get(idOfBuilding).getClass() != UtilityProject.class)
-            return false;
-
-        return true;
+        return this.problem.getProjects().get(idOfBuilding).getClass() == UtilityProject.class;
 
     }
 
