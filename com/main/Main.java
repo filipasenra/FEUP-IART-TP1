@@ -18,7 +18,7 @@ public class Main {
         parser.parseFile();
         System.out.println("Finish Parsing File");
 
-/*
+        /*
         HillClimbing hillClimbing;
         int n = 0;
 
@@ -42,7 +42,6 @@ public class Main {
         geneticAlgorithm.printSolution();
         System.out.println(n);
 
-
         HillClimbing hillClimbing = new HillClimbing(parser.getProblem());
         hillClimbing.solve(10000);
 
@@ -53,7 +52,7 @@ public class Main {
         geneticAlgorithm.printSolution();*/
 
         SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem());
-        simulatedAnnealing.solve();
+        simulatedAnnealing.solve(1000);
 
         simulatedAnnealing.printSolution();
 

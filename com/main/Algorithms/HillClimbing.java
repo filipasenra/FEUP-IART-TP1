@@ -25,7 +25,7 @@ public class HillClimbing {
         Individual newIndividual = solution.clone();
 
         for ( int i = 0 ; i < n; i++){
-            newIndividual.mutate(3);
+            newIndividual.mutate(10);
 
             if(newIndividual.getFitness() > solution.getFitness())
             {

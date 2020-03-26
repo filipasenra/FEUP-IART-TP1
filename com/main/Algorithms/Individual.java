@@ -32,7 +32,7 @@ public class Individual extends CityPlan implements Cloneable {
 
     }
 
-    public void crossOverSpecificType(Individual mutatedIndividual, Hashtable<Pair<Integer, Integer>, Integer> currentAbsoluteLocation, Hashtable<Pair<Integer, Integer>, Integer> individualAbsoluteLocation){
+    public void crossOverSpecificType(Individual mutatedIndividual, Hashtable<Pair<Integer, Integer>, Integer> currentAbsoluteLocation, Hashtable<Pair<Integer, Integer>, Integer> individualAbsoluteLocation) {
 
         Random rand = new Random();
 
@@ -41,7 +41,7 @@ public class Individual extends CityPlan implements Cloneable {
         primeKeys.addAll(currentAbsoluteLocation.keySet());
         primeKeys.addAll(individualAbsoluteLocation.keySet());
 
-        for(Pair<Integer, Integer> location: primeKeys) {
+        for (Pair<Integer, Integer> location : primeKeys) {
 
             int idProject;
             boolean currentHasLocation = currentAbsoluteLocation.containsKey(location);
@@ -74,7 +74,7 @@ public class Individual extends CityPlan implements Cloneable {
 
         Random rand = new Random();
 
-        for(int i = 0; i < nGenes; i++){
+        for (int i = 0; i < nGenes; i++) {
 
             int x = rand.nextInt(this.problem.getRows());
             int y = rand.nextInt(this.problem.getColumns());
@@ -87,14 +87,16 @@ public class Individual extends CityPlan implements Cloneable {
                 oldProject = this.problem.getProjects().get(nOldProject);
                 this.eraseProject(oldProject, new Pair<>(x, y));
 
-            } else if(this.mapAbsolutePositionUtility.containsKey(new Pair<>(x, y))){
+            } else if (this.mapAbsolutePositionUtility.containsKey(new Pair<>(x, y))) {
 
                 Integer nOldProject = this.mapAbsolutePositionUtility.get(new Pair<>(x, y));
                 oldProject = this.problem.getProjects().get(nOldProject);
                 this.eraseProject(oldProject, new Pair<>(x, y));
 
-            } if(this.gridMap.containsKey(new Pair<>(x, y)))
+            } else if (this.gridMap.containsKey(new Pair<>(x, y))) {
+                i--;
                 continue;
+            }
 
             Project project = this.problem.getProjects().get(rand.nextInt(this.problem.getProjects().size()));
 
@@ -102,7 +104,7 @@ public class Individual extends CityPlan implements Cloneable {
                 addProject(project, new Pair<>(x, y));
             } else {
 
-                if(oldProject != null)
+                if (oldProject != null)
                     this.addProject(oldProject, new Pair<>(x, y));
 
                 i--;
@@ -115,7 +117,7 @@ public class Individual extends CityPlan implements Cloneable {
     }
 
     @Override
-    public Individual clone(){
+    public Individual clone() {
 
         return new Individual(this.problem, (Hashtable<Pair<Integer, Integer>, Integer>) this.gridMap.clone(), this.fitness);
     }
