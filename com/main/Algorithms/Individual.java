@@ -3,6 +3,7 @@ package com.main.Algorithms;
 import com.main.Model.CityPlan;
 import com.main.Model.Problem;
 import com.main.Model.Project;
+import com.main.Model.ResidentialProject;
 import javafx.util.Pair;
 
 import java.util.*;
@@ -11,6 +12,10 @@ public class Individual extends CityPlan implements Cloneable {
 
     public Individual(Problem problem) {
         super(problem);
+    }
+
+    public Individual(Problem problem, Hashtable<Pair<Integer, Integer>, Integer> gridMap, int fitness) {
+        super(problem, gridMap, fitness);
     }
 
     public Individual crossOver(Individual individual) {
@@ -74,18 +79,36 @@ public class Individual extends CityPlan implements Cloneable {
             int x = rand.nextInt(this.problem.getRows());
             int y = rand.nextInt(this.problem.getColumns());
 
-            if (gridMap.containsKey(new Pair<>(x, y))) {
+            Project oldProject = null;
+
+            if (this.mapAbsolutePositionResidential.containsKey(new Pair<>(x, y))) {
+
+                Integer nOldProject = this.mapAbsolutePositionResidential.get(new Pair<>(x, y));
+                oldProject = this.problem.getProjects().get(nOldProject);
+                this.eraseProject(oldProject, new Pair<>(x, y));
+
+            } else if(this.mapAbsolutePositionUtility.containsKey(new Pair<>(x, y))){
+
+                Integer nOldProject = this.mapAbsolutePositionUtility.get(new Pair<>(x, y));
+                oldProject = this.problem.getProjects().get(nOldProject);
+                this.eraseProject(oldProject, new Pair<>(x, y));
+
+            } if(this.gridMap.containsKey(new Pair<>(x, y)))
                 continue;
-            }
 
             Project project = this.problem.getProjects().get(rand.nextInt(this.problem.getProjects().size()));
 
             if (checkIfCompatible(project, new Pair<>(x, y))) {
                 addProject(project, new Pair<>(x, y));
             } else {
+
+                if(oldProject != null)
+                    this.addProject(oldProject, new Pair<>(x, y));
+
                 i--;
             }
         }
+
 
         this.calculateFitness();
 
@@ -93,11 +116,8 @@ public class Individual extends CityPlan implements Cloneable {
 
     @Override
     public Individual clone(){
-        try{
-            return (Individual)super.clone();
-        }catch (CloneNotSupportedException e){
-            return null;
-        }
+
+        return new Individual(this.problem, (Hashtable<Pair<Integer, Integer>, Integer>) this.gridMap.clone(), this.fitness);
     }
 
 }

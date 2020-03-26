@@ -20,6 +20,12 @@ public class CityPlan {
         this.problem = problem;
     }
 
+    public CityPlan(Problem problem, Hashtable<Pair<Integer, Integer>, Integer> gridMap, int fitness) {
+        this.problem = problem;
+        this.gridMap = gridMap;
+        this.fitness = fitness;
+    }
+
     public void initiateGrid() {
         Random rand = new Random();
 
@@ -91,6 +97,29 @@ public class CityPlan {
 
     }
 
+
+    protected void eraseProject(Project project, Pair<Integer, Integer> location) {
+
+        if (project.getClass() == ResidentialProject.class)
+            this.mapAbsolutePositionResidential.remove(location);
+        else if (project.getClass() == UtilityProject.class)
+            this.mapAbsolutePositionUtility.remove(location);
+        else
+            return;
+
+        ArrayList<Pair<Integer, Integer>> occupiedCells = project.getOccupiedCells();
+
+        for (Pair<Integer, Integer> locationOfOccupiedCell : occupiedCells) {
+
+            Pair<Integer, Integer> newLocation = new Pair<>
+                    (location.getKey() + locationOfOccupiedCell.getKey(),
+                            location.getValue() + locationOfOccupiedCell.getValue());
+
+            this.gridMap.remove(newLocation);
+        }
+
+    }
+
     public void calculateFitness() {
         this.fitness = 0;
         int minimumManhattanDistance = this.problem.getMaximumWalkingDistance();
@@ -121,6 +150,10 @@ public class CityPlan {
                     for (int y = 0; y <= x; y++) {
 
                         Pair<Integer, Integer> newLocation = new Pair<>(x + location.getKey(), y + location.getValue());
+
+                        if (manhattanDistance(newLocation, location) > minimumManhattanDistance)
+                            continue;
+
                         this.addFitness(newLocation, idResidential, typeOfServicesPerResidential);
 
                         Pair<Integer, Integer> newLocation1 = new Pair<>(-x + location.getKey(), newLocation.getValue());
@@ -144,6 +177,7 @@ public class CityPlan {
 
         if (this.isUtilityInRange(location)) {
             int idUtility = this.gridMap.get(location);
+
             this.addUtilityToResidential(idResidential, idUtility, typeOfServicesPerResidential);
         }
     }
@@ -155,6 +189,7 @@ public class CityPlan {
             return false;
 
         int idOfBuilding = this.gridMap.get(location);
+
         if (this.problem.getProjects().get(idOfBuilding).getClass() != UtilityProject.class)
             return false;
 
@@ -174,11 +209,12 @@ public class CityPlan {
         ResidentialProject residentialProject = (ResidentialProject) this.problem.getProjects().get(idResidential);
         this.fitness += residentialProject.getCapacity();
         typeOfServicesPerResidential.add(utilityProject.getTypeOfService());
+
     }
 
     private int manhattanDistance(Pair<Integer, Integer> location1, Pair<Integer, Integer> location2) {
 
-        return abs(location1.getKey() + location2.getKey()) + abs(location1.getValue() + location2.getValue());
+        return abs(location1.getKey() - location2.getKey()) + abs(location1.getValue() - location2.getValue());
     }
 
     public int getFitness() {

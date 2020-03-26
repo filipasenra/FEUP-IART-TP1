@@ -17,30 +17,33 @@ public class HillClimbing {
         solution = new Individual(problem);
 
         solution.initiateGrid();
-        System.out.println("Initial fitness: " + solution.getFitness());
-        solve();
-        printSolution();
-        System.out.println("percentage:");
-        System.out.println("Final fitness: " + solution.getFitness());
     }
 
 
-    public void solve(){
+    public void solve(int n){
 
-        Individual oldIndividual = solution.clone();
-        Random rand = new Random();
+        Individual newIndividual = solution.clone();
 
-        for ( int i = 0 ; i < (problem.getRows()*problem.getColumns()); i++){
-            oldIndividual.mutate(10);
+        for ( int i = 0 ; i < n; i++){
+            newIndividual.mutate(3);
 
-            if(solution.getFitness() < oldIndividual.getFitness())
+            if(newIndividual.getFitness() > solution.getFitness())
             {
-                solution = oldIndividual;
+                solution = newIndividual.clone();
             }
         }
+
+
+        //printSolution();
     }
 
     public void printSolution(){
+        System.out.println(this.solution.getMapAbsolutePositionResidential());
         System.out.print(this.solution.toString());
+        System.out.println("Final fitness: " + solution.getFitness());
+    }
+
+    public Individual getSolution() {
+        return solution;
     }
 }

@@ -47,7 +47,8 @@ public class GeneticAlgorithm {
         //Elitism Keep the percentage of IndividualsToKeep
         for(int i = 0; i < this.sizePopulation*(1-percentageToMutate); i++) {
 
-            int n = rand.nextInt(newPopulation.getPopulation().size());
+            int individualsToKeep = (int)(this.sizePopulation*percentageToKeep);
+            int n = individualsToKeep + rand.nextInt(newPopulation.getPopulation().size() - individualsToKeep);
             Individual individualToMutate = newPopulation.getPopulation().get(n);
             individualToMutate.mutate(10);
         }
@@ -60,21 +61,20 @@ public class GeneticAlgorithm {
 
     public void performAlgorithm(int nRepeat) {
 
-        this.printSolution();
-
         for(int i = 0; i < nRepeat; i++) {
             this.performIteration();
         }
-
-        this.printSolution();
     }
 
-    public Hashtable<Pair<Integer, Integer>, Integer> getSolution () {
-        return this.population.getPopulation().get(0).getGridMap();
+    public Individual getSolution () {
+        return this.population.getPopulation().get(0);
     }
 
     public void printSolution() {
 
+        System.out.println("--------------------------");
+        this.population.getPopulation().get(0).calculateFitness();
+        System.out.println(this.population.getPopulation().get(0).getMapAbsolutePositionResidential());
         System.out.print(this.population.getPopulation().get(0).toString());
         System.out.println("Fitness: " + this.population.getPopulation().get(0).getFitness() + "\n");
     }
