@@ -44,17 +44,17 @@ public class Main {
         System.out.println(n);
 */
 
-        /*HillClimbing hillClimbing = new HillClimbing(parser.getProblem());
+        HillClimbing hillClimbing = new HillClimbing(parser.getProblem());
         hillClimbing.solve(10000);
 
         hillClimbing.printSolution();
-
+/*
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), 500);
         geneticAlgorithm.performAlgorithm(200);
         geneticAlgorithm.printSolution();*/
 
         SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem());
-        simulatedAnnealing.solve();
+        simulatedAnnealing.solve(1000);
 
         simulatedAnnealing.printSolution();
 

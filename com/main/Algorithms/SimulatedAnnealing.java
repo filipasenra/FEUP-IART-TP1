@@ -24,10 +24,6 @@ public class SimulatedAnnealing {
     // Decrease in temperature
     static final double alpha = 0.9;
 
-    // Number of iterations of annealing
-    // before decreasing temperature
-    static final int numIterations = 1000;
-
     public SimulatedAnnealing(Problem problem) {
         this.problem = problem;
 
@@ -36,31 +32,41 @@ public class SimulatedAnnealing {
         solution.initiateGrid();
     }
 
-    public void solve() {
+    public void solve(int numIterations) {
 
-        Individual currentSolution = solution.clone();
-        Individual bestSolution = currentSolution.clone();
+        Random rand = new Random();
 
+        int n = 0;
         while (T > Tmin) {
+
             for (int i = 0; i < numIterations; i++) {
-                Individual solutionI = currentSolution.clone();
-                solutionI.mutate(3);
+                /*Individual solutionI = this.solution.clone();
+                solutionI.mutate(10);*/
 
-                if (solutionI.getFitness() > currentSolution.getFitness()) {
-                    currentSolution = solutionI.clone();
+                Individual solutionI = new Individual(problem);
+                solutionI.initiateGrid();
 
-                    if (currentSolution.getFitness() > bestSolution.getFitness())
-                        bestSolution = solutionI.clone();
+                if (solutionI.getFitness() > this.solution.getFitness()) {
 
-                } else if (Math.pow(Math.E, (currentSolution.getFitness() - solutionI.getFitness() / T)) > Math.random())
-                    currentSolution = solutionI.clone();
+                    this.solution = solutionI;
+
+                } else {
+
+                    int delta = solutionI.getFitness() - this.solution.getFitness();
+
+                    if (rand.nextInt(1) > Math.pow(Math.E, (-1*delta)/ T))
+                    {
+                        this.solution = solutionI;
+                    }
+                }
 
             }
 
+            n++;
             T *= alpha;
         }
 
-        //printSolution();
+        System.out.println(n);
     }
 
     public void printSolution() {
