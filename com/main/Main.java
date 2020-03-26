@@ -48,10 +48,10 @@ public class Main {
         hillClimbing.solve(10000);
 
         hillClimbing.printSolution();
-/*
+
         GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), 500);
         geneticAlgorithm.performAlgorithm(200);
-        geneticAlgorithm.printSolution();*/
+        geneticAlgorithm.printSolution();
 
         SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem());
         simulatedAnnealing.solve(1000);

@@ -36,7 +36,6 @@ public class SimulatedAnnealing {
 
         Random rand = new Random();
 
-        int n = 0;
         while (T > Tmin) {
 
             for (int i = 0; i < numIterations; i++) {
@@ -62,11 +61,8 @@ public class SimulatedAnnealing {
 
             }
 
-            n++;
             T *= alpha;
         }
-
-        System.out.println(n);
     }
 
     public void printSolution() {

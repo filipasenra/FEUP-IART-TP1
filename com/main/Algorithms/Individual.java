@@ -93,8 +93,7 @@ public class Individual extends CityPlan implements Cloneable {
                 oldProject = this.problem.getProjects().get(nOldProject);
                 this.eraseProject(oldProject, new Pair<>(x, y));
 
-            }
-            if (this.gridMap.containsKey(new Pair<>(x, y))) {
+            } else if (this.gridMap.containsKey(new Pair<>(x, y))) {
                 i--;
                 continue;
             }
