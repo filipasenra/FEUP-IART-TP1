@@ -7,7 +7,7 @@ import javafx.util.Pair;
 
 import java.util.*;
 
-public class Individual extends CityPlan {
+public class Individual extends CityPlan implements Cloneable {
 
     public Individual(Problem problem) {
         super(problem);
@@ -89,6 +89,15 @@ public class Individual extends CityPlan {
 
         this.calculateFitness();
 
+    }
+
+    @Override
+    public Individual clone(){
+        try{
+            return (Individual)super.clone();
+        }catch (CloneNotSupportedException e){
+            return null;
+        }
     }
 
 }
