@@ -32,6 +32,7 @@ public class HillClimbing {
 
         for ( int i = 0 ; i < (problem.getRows()*problem.getColumns()); i++){
             oldIndividual.mutate(10);
+
             if(solution.getFitness() < oldIndividual.getFitness())
             {
                 solution = oldIndividual;
