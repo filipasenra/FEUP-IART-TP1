@@ -48,37 +48,22 @@ public class Main {
 
         hillClimbing.printSolution();
 */
-       /* GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), 500);
+        /*GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), 500);
         geneticAlgorithm.performAlgorithm(100);
-        geneticAlgorithm.printSolution();
-*/
-       /* SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem());
+        geneticAlgorithm.printSolution();*/
+
+        /*SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem());
         simulatedAnnealing.solve(1000);
 
         simulatedAnnealing.printSolution();
 
-        solution = simulatedAnnealing.getSolution();
+        solution = simulatedAnnealing.getSolution();*/
 
-        //drawSolution();
-
-        */
 
         HillClimbing hillClimbing = new HillClimbing(parser.getProblem());
         hillClimbing.printSolution();
         hillClimbing.solve(10000);
 
         hillClimbing.printSolution();
-    }
-
-    public static void drawSolution() {
-        JFrame frame = new JFrame("CITY PLAN");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600,600);
-
-        JTextArea ola = new JTextArea(solution.toString());
-        frame.getContentPane().add(ola);
-
-
-        frame.setVisible(true);
     }
 }

@@ -70,11 +70,32 @@ public class CityPlan {
                     (location.getKey() + locationOfOccupiedCell.getKey(),
                             location.getValue() + locationOfOccupiedCell.getValue());
 
-            if (this.gridMap.containsKey(newLocation))
-                return false;
+            if (this.gridMap.containsKey(newLocation)) {
+                Project oldProject;
+                 if (this.mapAbsolutePositionResidential.containsKey(location)) {
+
+                    Integer nOldProject = this.mapAbsolutePositionResidential.get(location);
+                    oldProject = this.problem.getProjects().get(nOldProject);
+                    this.eraseProject(oldProject, location);
+                    return true;
+
+                } else if (this.mapAbsolutePositionUtility.containsKey(location)) {
+
+                    Integer nOldProject = this.mapAbsolutePositionUtility.get(location);
+                    oldProject = this.problem.getProjects().get(nOldProject);
+                    this.eraseProject(oldProject, location);
+
+                    return true;
+                }
+            }
+
         }
 
         return true;
+    }
+
+    void eraseColisions () {
+
     }
 
     public void addProject(Project project, Pair<Integer, Integer> location) {

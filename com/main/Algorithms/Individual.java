@@ -83,28 +83,9 @@ public class Individual extends CityPlan implements Cloneable {
         for (int y = location.getKey(); y < this.problem.getColumns(); y++) {
             for (int x = location.getValue(); x < this.problem.getRows(); x++) {
 
-                Project oldProject = null;
-                if (this.mapAbsolutePositionResidential.containsKey(location)) {
-
-                    Integer nOldProject = this.mapAbsolutePositionResidential.get(location);
-                    oldProject = this.problem.getProjects().get(nOldProject);
-                    this.eraseProject(oldProject, location);
-
-                } else if (this.mapAbsolutePositionUtility.containsKey(location)) {
-
-                    Integer nOldProject = this.mapAbsolutePositionUtility.get(location);
-                    oldProject = this.problem.getProjects().get(nOldProject);
-                    this.eraseProject(oldProject, location);
-                } else if (this.gridMap.containsKey(new Pair<>(x, y))) {
-                    continue;
-                }
-
                 System.out.println(location);
 
                 for (int n = projectNumber; n < this.problem.getProjects().size(); n++) {
-
-                    if (oldProject != null && n == oldProject.getnProject())
-                        continue;
 
                     Project project = this.problem.getProjects().get(n);
 
