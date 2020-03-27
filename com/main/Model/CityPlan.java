@@ -20,9 +20,11 @@ public class CityPlan {
         this.problem = problem;
     }
 
-    public CityPlan(Problem problem, Hashtable<Pair<Integer, Integer>, Integer> gridMap, int fitness) {
+    public CityPlan(Problem problem, Hashtable<Pair<Integer, Integer>, Integer> gridMap, Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionUtility, Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionResidential, int fitness) {
         this.problem = problem;
         this.gridMap = gridMap;
+        this.mapAbsolutePositionUtility = mapAbsolutePositionUtility;
+        this.mapAbsolutePositionResidential = mapAbsolutePositionResidential;
         this.fitness = fitness;
     }
 

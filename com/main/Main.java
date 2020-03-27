@@ -1,5 +1,6 @@
 package com.main;
 
+import com.main.Algorithms.HillClimbing;
 import com.main.Algorithms.Individual;
 import com.main.Algorithms.SimulatedAnnealing;
 import com.main.Algorithms.GeneticAlgorithm;
@@ -14,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Parser parser = new Parser("./src/com/main/inputFiles/b_short_walk.in");
+        Parser parser = new Parser("./src/com/main/inputFiles/a_example.in");
         parser.parseFile();
         System.out.println("Finish Parsing File");
 
@@ -46,20 +47,27 @@ public class Main {
         hillClimbing.solve(10000);
 
         hillClimbing.printSolution();
-
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), 500);
-<<<<<<< HEAD
+*/
+       /* GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), 500);
         geneticAlgorithm.performAlgorithm(100);
         geneticAlgorithm.printSolution();
 */
-        SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem());
+       /* SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem());
         simulatedAnnealing.solve(1000);
 
         simulatedAnnealing.printSolution();
 
         solution = simulatedAnnealing.getSolution();
 
-        drawSolution();
+        //drawSolution();
+
+        */
+
+        HillClimbing hillClimbing = new HillClimbing(parser.getProblem());
+        hillClimbing.printSolution();
+        hillClimbing.solve(10000);
+
+        hillClimbing.printSolution();
     }
 
     public static void drawSolution() {

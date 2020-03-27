@@ -50,7 +50,7 @@ public class GeneticAlgorithm {
             int individualsToKeep = (int)(this.sizePopulation*percentageToKeep);
             int n = individualsToKeep + rand.nextInt(newPopulation.getPopulation().size() - individualsToKeep);
             Individual individualToMutate = newPopulation.getPopulation().get(n);
-            individualToMutate.mutate(10);
+            individualToMutate.mutate(new Pair<>(0, 0), 0);
         }
 
         this.population = newPopulation;

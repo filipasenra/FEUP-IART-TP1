@@ -20,16 +20,29 @@ public class HillClimbing {
     }
 
 
-    public void solve(int n){
+    public void solve(int nRepeat){
 
         Individual newIndividual = solution.clone();
+        Pair<Integer, Integer> location = new Pair<>(0, 0);
+        int n = 0;
 
-        for ( int i = 0 ; i < n; i++){
-            newIndividual.mutate(10);
+        for (int i = 0 ; i < nRepeat; i++){
 
-            if(newIndividual.getFitness() > solution.getFitness())
+            if(!newIndividual.mutate(location, n)) {
+                newIndividual = new Individual(this.problem);
+                newIndividual.initiateGrid();
+                return;
+            }
+
+            if(newIndividual.getFitness() >= solution.getFitness())
             {
+                location =  new Pair<>(0, 0);
+                n = 0;
                 solution = newIndividual.clone();
+            } else {
+
+                location = newIndividual.location;
+                n = newIndividual.projectNumber;
             }
         }
 

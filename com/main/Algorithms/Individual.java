@@ -3,19 +3,21 @@ package com.main.Algorithms;
 import com.main.Model.CityPlan;
 import com.main.Model.Problem;
 import com.main.Model.Project;
-import com.main.Model.ResidentialProject;
 import javafx.util.Pair;
 
 import java.util.*;
 
 public class Individual extends CityPlan implements Cloneable {
 
+    Pair<Integer, Integer> location = new Pair<>(0, 0);
+    int projectNumber = 0;
+
     public Individual(Problem problem) {
         super(problem);
     }
 
-    public Individual(Problem problem, Hashtable<Pair<Integer, Integer>, Integer> gridMap, int fitness) {
-        super(problem, gridMap, fitness);
+    public Individual(Problem problem, Hashtable<Pair<Integer, Integer>, Integer> gridMap, Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionUtility, Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionResidential, int fitness) {
+        super(problem, gridMap, mapAbsolutePositionUtility, mapAbsolutePositionResidential, fitness);
     }
 
     public Individual crossOver(Individual individual) {
@@ -70,91 +72,61 @@ public class Individual extends CityPlan implements Cloneable {
         }
     }
 
-    public void mutate(int nGenes) {
+    public boolean mutate(Pair<Integer, Integer> location, int projectNumber) {
 
-        Random rand = new Random();
+        if(location.getValue() >= this.problem.getRows())
+            location = new Pair<>(location.getKey() + 1, 0);
 
-        //Tentativa falhadaaaaaaaaaaaaaa
-/*
-        for (int i = 0; i < this.problem.getRows(); i++) {
+        if(location.getKey() >= this.problem.getColumns())
+            location = new Pair<>(0, 0);
 
-            for (int j = 0; j < this.problem.getColumns(); j++) {
+        for (int y = location.getKey(); y < this.problem.getColumns(); y++) {
+            for (int x = location.getValue(); x < this.problem.getRows(); x++) {
 
-                if (gridMap.containsKey(new Pair<>(i, j))) {
-                    System.out.println("constainsKey");
+                Project oldProject = null;
+                if (this.mapAbsolutePositionResidential.containsKey(location)) {
+
+                    Integer nOldProject = this.mapAbsolutePositionResidential.get(location);
+                    oldProject = this.problem.getProjects().get(nOldProject);
+                    this.eraseProject(oldProject, location);
+
+                } else if (this.mapAbsolutePositionUtility.containsKey(location)) {
+
+                    Integer nOldProject = this.mapAbsolutePositionUtility.get(location);
+                    oldProject = this.problem.getProjects().get(nOldProject);
+                    this.eraseProject(oldProject, location);
+                } else if (this.gridMap.containsKey(new Pair<>(x, y))) {
                     continue;
                 }
 
-                for (int k = 0; k < this.problem.getProjects().size(); k++) {
-                    Project project = this.problem.getProjects().get(k);
+                System.out.println(location);
 
-                    if (checkIfCompatible(project, new Pair<>(i, j))) {
-                        addProject(project, new Pair<>(i, j));
+                for (int n = projectNumber; n < this.problem.getProjects().size(); n++) {
 
-                        nGenes--;
-                        System.out.println("compatible");
-                        break;
+                    if (oldProject != null && n == oldProject.getnProject())
+                        continue;
 
-                    } else {
-                        nGenes++;
-                        triesWithNoResult++;
-                        System.out.println("no compatible");
-                    }
+                    Project project = this.problem.getProjects().get(n);
 
-                    if (nGenes < 0) {
-                        return;
+                    if (checkIfCompatible(project, new Pair<>(x, y))) {
+                        addProject(project, new Pair<>(x, y));
+                        this.location = new Pair<>(x, y);
+                        this.projectNumber = n+1;
+                        this.calculateFitness();
+                        return true;
                     }
                 }
-
             }
         }
 
- */
-        for (int i = 0; i < nGenes; i++) {
-
-            int x = rand.nextInt(this.problem.getRows());
-            int y = rand.nextInt(this.problem.getColumns());
-
-            Project oldProject = null;
-
-            if (this.mapAbsolutePositionResidential.containsKey(new Pair<>(x, y))) {
-
-               Integer nOldProject = this.mapAbsolutePositionResidential.get(new Pair<>(x, y));
-                oldProject = this.problem.getProjects().get(nOldProject);
-                this.eraseProject(oldProject, new Pair<>(x, y));
-
-            } else if (this.mapAbsolutePositionUtility.containsKey(new Pair<>(x, y))) {
-
-                Integer nOldProject = this.mapAbsolutePositionUtility.get(new Pair<>(x, y));
-                oldProject = this.problem.getProjects().get(nOldProject);
-                this.eraseProject(oldProject, new Pair<>(x, y));
-
-            } else if (this.gridMap.containsKey(new Pair<>(x, y))) {
-                i--;
-                continue;
-            }
-
-            Project project = this.problem.getProjects().get(rand.nextInt(this.problem.getProjects().size()));
-
-            if (checkIfCompatible(project, new Pair<>(x, y))) {
-                addProject(project, new Pair<>(x, y));
-            } else {
-
-                if (oldProject != null)
-                    this.addProject(oldProject, new Pair<>(x, y));
-
-                i--;
-            }
-        }
-
-        this.calculateFitness();
-
+        //Could not find a neighbor
+        return false;
     }
 
     @Override
     public Individual clone() {
 
-        return new Individual(this.problem, (Hashtable<Pair<Integer, Integer>, Integer>) this.gridMap.clone(), this.fitness);
+        return new Individual(this.problem, (Hashtable<Pair<Integer, Integer>, Integer>) this.gridMap.clone(), (Hashtable<Pair<Integer, Integer>, Integer>) this.mapAbsolutePositionUtility.clone(), (Hashtable<Pair<Integer, Integer>, Integer>) this.mapAbsolutePositionResidential.clone(), this.fitness);
     }
 
 }

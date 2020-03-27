@@ -40,7 +40,7 @@ public class SimulatedAnnealing {
 
             for (int i = 0; i < numIterations; i++) {
                 Individual solutionI = this.solution.clone();
-                solutionI.mutate(20);
+                solutionI.mutate(new Pair<>(0, 0), 0);
 
                 /*Individual solutionI = new Individual(problem);
                 solutionI.initiateGrid();*/
