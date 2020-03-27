@@ -39,11 +39,11 @@ public class SimulatedAnnealing {
         while (T > Tmin) {
 
             for (int i = 0; i < numIterations; i++) {
-                /*Individual solutionI = this.solution.clone();
-                solutionI.mutate(10);*/
+                Individual solutionI = this.solution.clone();
+                solutionI.mutate(20);
 
-                Individual solutionI = new Individual(problem);
-                solutionI.initiateGrid();
+                /*Individual solutionI = new Individual(problem);
+                solutionI.initiateGrid();*/
 
                 if (solutionI.getFitness() > this.solution.getFitness()) {
 
@@ -58,6 +58,10 @@ public class SimulatedAnnealing {
                         this.solution = solutionI;
                     }
                 }
+
+
+                //System.out.println("Fitness: " + this.solution.getFitness());
+                //System.out.println("NProjects: " + (this.solution.getMapAbsolutePositionUtility().size() + this.solution.getMapAbsolutePositionResidential().size()) + "\n");
 
             }
 

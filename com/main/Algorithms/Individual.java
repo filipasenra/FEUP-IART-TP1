@@ -74,6 +74,42 @@ public class Individual extends CityPlan implements Cloneable {
 
         Random rand = new Random();
 
+        //Tentativa falhadaaaaaaaaaaaaaa
+/*
+        for (int i = 0; i < this.problem.getRows(); i++) {
+
+            for (int j = 0; j < this.problem.getColumns(); j++) {
+
+                if (gridMap.containsKey(new Pair<>(i, j))) {
+                    System.out.println("constainsKey");
+                    continue;
+                }
+
+                for (int k = 0; k < this.problem.getProjects().size(); k++) {
+                    Project project = this.problem.getProjects().get(k);
+
+                    if (checkIfCompatible(project, new Pair<>(i, j))) {
+                        addProject(project, new Pair<>(i, j));
+
+                        nGenes--;
+                        System.out.println("compatible");
+                        break;
+
+                    } else {
+                        nGenes++;
+                        triesWithNoResult++;
+                        System.out.println("no compatible");
+                    }
+
+                    if (nGenes < 0) {
+                        return;
+                    }
+                }
+
+            }
+        }
+
+ */
         for (int i = 0; i < nGenes; i++) {
 
             int x = rand.nextInt(this.problem.getRows());
@@ -83,7 +119,7 @@ public class Individual extends CityPlan implements Cloneable {
 
             if (this.mapAbsolutePositionResidential.containsKey(new Pair<>(x, y))) {
 
-                Integer nOldProject = this.mapAbsolutePositionResidential.get(new Pair<>(x, y));
+               Integer nOldProject = this.mapAbsolutePositionResidential.get(new Pair<>(x, y));
                 oldProject = this.problem.getProjects().get(nOldProject);
                 this.eraseProject(oldProject, new Pair<>(x, y));
 
@@ -110,7 +146,6 @@ public class Individual extends CityPlan implements Cloneable {
                 i--;
             }
         }
-
 
         this.calculateFitness();
 

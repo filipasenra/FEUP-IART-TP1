@@ -63,6 +63,9 @@ public class GeneticAlgorithm {
 
         for(int i = 0; i < nRepeat; i++) {
             this.performIteration();
+            System.out.println("Fitness: " + this.population.getPopulation().get(0).getFitness() + "\n");
+            System.out.println("NProjects: " + (this.population.getPopulation().get(0).getMapAbsolutePositionUtility().size() + this.population.getPopulation().get(0).getMapAbsolutePositionResidential().size()) + "\n");
+
         }
     }
 
