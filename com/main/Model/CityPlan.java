@@ -226,6 +226,10 @@ public class CityPlan {
         return mapAbsolutePositionResidential;
     }
 
+    public Problem getProblem() {
+        return problem;
+    }
+
     public Hashtable<Pair<Integer, Integer>, Integer> getGridMap() {
         return gridMap;
     }
