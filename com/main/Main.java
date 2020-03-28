@@ -21,10 +21,10 @@ public class Main {
         geneticAlgorithm.performAlgorithm(400);
         geneticAlgorithm.printSolution();*/
 
-        SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem());
+       /* SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem());
         simulatedAnnealing.solve(1000);
 
-        simulatedAnnealing.printSolution();
+        simulatedAnnealing.printSolution();*/
 
 
        /* HillClimbing hillClimbing = new HillClimbing(parser.getProblem());
@@ -32,5 +32,10 @@ public class Main {
         hillClimbing.solve(500000);
 
         hillClimbing.printSolution();*/
+
+       TabuSearch tabuSearch = new TabuSearch(parser.getProblem(), true);
+        tabuSearch.printSolution();
+       tabuSearch.solve(100000);
+       tabuSearch.printSolution();
     }
 }

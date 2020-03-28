@@ -23,8 +23,6 @@ public class HillClimbing {
     public void solve(int nRepeat){
 
         Individual newIndividual = solution.clone();
-        Pair<Integer, Integer> location = new Pair<>(0, 0);
-        int n = 0;
 
         for (int i = 0 ; i < nRepeat; i++){
 

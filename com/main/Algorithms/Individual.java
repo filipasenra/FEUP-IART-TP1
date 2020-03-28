@@ -166,6 +166,16 @@ public class Individual extends CityPlan implements Cloneable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+
+        if(obj.getClass() != this.getClass())
+            return false;
+
+        Individual individual = (Individual) obj;
+        return (this.mapAbsolutePositionUtility.equals(individual.mapAbsolutePositionUtility)) && (this.mapAbsolutePositionResidential.equals(individual.mapAbsolutePositionResidential));
+    }
+
+    @Override
     public Individual clone() {
 
         return new Individual(this.problem, (Hashtable<Pair<Integer, Integer>, Integer>) this.gridMap.clone(), (Hashtable<Pair<Integer, Integer>, Integer>) this.mapAbsolutePositionUtility.clone(), (Hashtable<Pair<Integer, Integer>, Integer>) this.mapAbsolutePositionResidential.clone(), this.fitness);
