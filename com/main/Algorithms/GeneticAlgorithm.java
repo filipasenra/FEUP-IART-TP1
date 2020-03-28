@@ -50,7 +50,7 @@ public class GeneticAlgorithm {
             int individualsToKeep = (int)(this.sizePopulation*percentageToKeep);
             int n = individualsToKeep + rand.nextInt(newPopulation.getPopulation().size() - individualsToKeep);
             Individual individualToMutate = newPopulation.getPopulation().get(n);
-            individualToMutate.mutate(new Pair<>(0, 0), 0);
+            individualToMutate.mutate();
         }
 
         this.population = newPopulation;
@@ -63,9 +63,6 @@ public class GeneticAlgorithm {
 
         for(int i = 0; i < nRepeat; i++) {
             this.performIteration();
-            System.out.println("Fitness: " + this.population.getPopulation().get(0).getFitness() + "\n");
-            System.out.println("NProjects: " + (this.population.getPopulation().get(0).getMapAbsolutePositionUtility().size() + this.population.getPopulation().get(0).getMapAbsolutePositionResidential().size()) + "\n");
-
         }
     }
 

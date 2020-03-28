@@ -22,7 +22,7 @@ public class SimulatedAnnealing {
     static final double Tmin = .0001;
 
     // Decrease in temperature
-    static final double alpha = 0.9;
+    static final double alpha = 0.5;
 
     public SimulatedAnnealing(Problem problem) {
         this.problem = problem;
@@ -40,10 +40,7 @@ public class SimulatedAnnealing {
 
             for (int i = 0; i < numIterations; i++) {
                 Individual solutionI = this.solution.clone();
-                solutionI.mutate(new Pair<>(0, 0), 0);
-
-                /*Individual solutionI = new Individual(problem);
-                solutionI.initiateGrid();*/
+                solutionI.mutate();
 
                 if (solutionI.getFitness() > this.solution.getFitness()) {
 
@@ -58,11 +55,6 @@ public class SimulatedAnnealing {
                         this.solution = solutionI;
                     }
                 }
-
-
-                //System.out.println("Fitness: " + this.solution.getFitness());
-                //System.out.println("NProjects: " + (this.solution.getMapAbsolutePositionUtility().size() + this.solution.getMapAbsolutePositionResidential().size()) + "\n");
-
             }
 
             T *= alpha;

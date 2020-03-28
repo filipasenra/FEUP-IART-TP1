@@ -28,21 +28,11 @@ public class HillClimbing {
 
         for (int i = 0 ; i < nRepeat; i++){
 
-            if(!newIndividual.mutate(location, n)) {
-                newIndividual = new Individual(this.problem);
-                newIndividual.initiateGrid();
-                return;
-            }
+           newIndividual.mutate();
 
             if(newIndividual.getFitness() >= solution.getFitness())
             {
-                location =  new Pair<>(0, 0);
-                n = 0;
                 solution = newIndividual.clone();
-            } else {
-
-                location = newIndividual.location;
-                n = newIndividual.projectNumber;
             }
         }
 
