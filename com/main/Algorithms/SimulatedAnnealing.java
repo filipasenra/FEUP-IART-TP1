@@ -1,44 +1,40 @@
 package com.main.Algorithms;
 
 import com.main.Model.Problem;
-import com.main.Model.Project;
-import javafx.util.Pair;
-
-import java.util.*;
-
 import java.util.Random;
 
-public class SimulatedAnnealing {
+public class SimulatedAnnealing extends Algorithm {
 
-    Problem problem;
-    Individual solution;
+    int nRepeat;
 
-    // Initial and final temperature
-    public static double T = 1;
-
-    // Simulated Annealing parameters
-
+    // Initial temperature
+    double T;
     // Temperature at which iteration terminates
-    static final double Tmin = .0001;
-
+    final double Tmin;
     // Decrease in temperature
-    static final double alpha = 0.5;
+    final double alpha;
 
-    public SimulatedAnnealing(Problem problem) {
-        this.problem = problem;
+    public SimulatedAnnealing(Problem problem, int nRepeat, double T, double Tmin, double alpha ) {
+        super(problem);
+
+        this.nRepeat = nRepeat;
+        this.T = T;
+        this.Tmin = Tmin;
+        this.alpha = alpha;
 
         solution = new Individual(problem);
-
         solution.initiateGrid();
     }
 
-    public void solve(int numIterations) {
+    public void solve() {
+
+        long start = System.nanoTime();
 
         Random rand = new Random();
 
         while (T > Tmin) {
 
-            for (int i = 0; i < numIterations; i++) {
+            for (int i = 0; i < nRepeat; i++) {
                 Individual solutionI = this.solution.clone();
                 solutionI.mutate();
 
@@ -59,15 +55,8 @@ public class SimulatedAnnealing {
 
             T *= alpha;
         }
+
+        this.elapsedTime = System.nanoTime() - start;
     }
 
-    public void printSolution() {
-        System.out.println(this.solution.getMapAbsolutePositionResidential());
-        System.out.print(this.solution.toString());
-        System.out.println("Final fitness: " + solution.getFitness());
-    }
-
-    public Individual getSolution() {
-        return solution;
-    }
 }

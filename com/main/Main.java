@@ -2,9 +2,6 @@ package com.main;
 
 import com.main.Algorithms.*;
 import com.main.Parser.Parser;
-import javafx.util.Pair;
-
-import javax.swing.*;
 
 public class Main {
 
@@ -16,26 +13,23 @@ public class Main {
         parser.parseFile();
         System.out.println("Finish Parsing File");
 
-        /*
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), 200);
-        geneticAlgorithm.performAlgorithm(400);
-        geneticAlgorithm.printSolution();*/
 
-       /* SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem());
-        simulatedAnnealing.solve(1000);
+        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), 200, 400, 0.1, 0.5, 0.5);
+        geneticAlgorithm.solve();
+        geneticAlgorithm.printSolution();
 
-        simulatedAnnealing.printSolution();*/
+        SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem(), 100000, 1, .0001, 0.5);
+        simulatedAnnealing.solve();
+        simulatedAnnealing.printSolution();
 
 
-       /* HillClimbing hillClimbing = new HillClimbing(parser.getProblem());
+        HillClimbing hillClimbing = new HillClimbing(parser.getProblem(), 1000000);
+        hillClimbing.solve();
         hillClimbing.printSolution();
-        hillClimbing.solve(500000);
 
-        hillClimbing.printSolution();*/
-
-       TabuSearch tabuSearch = new TabuSearch(parser.getProblem(), true);
+        TabuSearch tabuSearch = new TabuSearch(parser.getProblem(), true, 100000, 1, 0.5);
+        tabuSearch.solve();
         tabuSearch.printSolution();
-       tabuSearch.solve(100000);
-       tabuSearch.printSolution();
+
     }
 }

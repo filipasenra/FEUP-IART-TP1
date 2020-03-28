@@ -6,25 +6,27 @@ import javafx.util.Pair;
 
 import java.util.Random;
 
-public class HillClimbing {
+public class HillClimbing extends Algorithm{
 
-    Problem problem;
-    Individual solution;
+    int nRepeat;
 
-    public HillClimbing(Problem problem){
-        this.problem = problem;
+    public HillClimbing(Problem problem, int nRepeat){
+        super(problem);
+
+        this.nRepeat = nRepeat;
 
         solution = new Individual(problem);
-
         solution.initiateGrid();
     }
 
 
-    public void solve(int nRepeat){
+    public void solve(){
+
+        long start = System.nanoTime();
 
         Individual newIndividual = solution.clone();
 
-        for (int i = 0 ; i < nRepeat; i++){
+        for (int i = 0 ; i < this.nRepeat; i++){
 
            newIndividual.mutate();
 
@@ -34,17 +36,8 @@ public class HillClimbing {
             }
         }
 
+        this.elapsedTime = System.nanoTime() - start;
 
-        //printSolution();
     }
 
-    public void printSolution(){
-        System.out.println(this.solution.getMapAbsolutePositionResidential());
-        System.out.print(this.solution.toString());
-        System.out.println("Final fitness: " + solution.getFitness());
-    }
-
-    public Individual getSolution() {
-        return solution;
-    }
 }

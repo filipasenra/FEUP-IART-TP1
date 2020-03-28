@@ -9,24 +9,30 @@ import java.util.Hashtable;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class GeneticAlgorithm {
+public class GeneticAlgorithm extends Algorithm {
 
-    Problem problem;
     Population population;
     int sizePopulation;
 
-    public GeneticAlgorithm(Problem problem, int sizePopulation) {
-        this.problem = problem;
+    int nRepeat;
+    double percentageToKeep;
+    double percentageToMate;
+    double percentageToMutate;
+
+    public GeneticAlgorithm(Problem problem, int sizePopulation, int nRepeat, double percentageToKeep, double percentageToMate, double percentageToMutate) {
+        super(problem);
+
+        this.nRepeat = nRepeat;
+        this.percentageToKeep = percentageToKeep;
+        this.percentageToMate = percentageToMate;
+        this.percentageToMutate = percentageToMutate;
+
         this.sizePopulation = sizePopulation;
         this.population = new Population(this.sizePopulation, problem);
         this.population.sortPopulation();
     }
 
     private boolean performIteration() {
-
-        double percentageToKeep = 0.1;
-        double percentageToMate = 0.5;
-        double percentageToMutate = 0.5;
 
         Random rand = new Random();
 
@@ -59,23 +65,16 @@ public class GeneticAlgorithm {
         return false;
     }
 
-    public void performAlgorithm(int nRepeat) {
+    public void solve() {
 
-        for(int i = 0; i < nRepeat; i++) {
+        long start = System.nanoTime();
+
+        for(int i = 0; i < this.nRepeat; i++) {
             this.performIteration();
         }
-    }
 
-    public Individual getSolution () {
-        return this.population.getPopulation().get(0);
-    }
+        this.elapsedTime = System.nanoTime() - start;
 
-    public void printSolution() {
-
-        System.out.println("--------------------------");
-        this.population.getPopulation().get(0).calculateFitness();
-        System.out.println(this.population.getPopulation().get(0).getMapAbsolutePositionResidential());
-        System.out.print(this.population.getPopulation().get(0).toString());
-        System.out.println("Fitness: " + this.population.getPopulation().get(0).getFitness() + "\n");
+        this.solution = this.population.getPopulation().get(0);
     }
 }

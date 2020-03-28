@@ -1,44 +1,47 @@
 package com.main.Algorithms;
 
 import com.main.Model.Problem;
-import javafx.util.Pair;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class TabuSearch {
+public class TabuSearch extends Algorithm{
 
-    Problem problem;
-    Individual solution;
     LinkedList<Individual> memory = new LinkedList<>();
     int MAX_QUEUE_SIZE = 15;
 
-    boolean random = false;
-    public static double T = 1;
+    int nRepeat;
 
-    // Simulated Annealing parameters
+    boolean random = false;
+
+    // Initial temperature
+    double T;
     // Decrease in temperature
-    static final double alpha = 0.5;
+    double alpha;
 
     public TabuSearch(Problem problem) {
-        this.problem = problem;
+        super(problem);
 
         solution = new Individual(problem);
         solution.initiateGrid();
     }
 
-    public TabuSearch(Problem problem, boolean random) {
+    public TabuSearch(Problem problem, boolean random, int nRepeat, double T, double alpha) {
         this(problem);
         this.random = random;
+
+        this.nRepeat = nRepeat;
+        this.T = T;
+        this.alpha = alpha;
     }
 
 
-    public void solve(int nRepeat) {
+    public void solve() {
+
+        long start = System.nanoTime();
 
         Random rand = new Random();
 
-        for (int i = 0; i < nRepeat; i++) {
+        for (int i = 0; i < this.nRepeat; i++) {
             Individual newIndividual;
 
             do {
@@ -65,17 +68,7 @@ public class TabuSearch {
             T *= alpha;
         }
 
-
-        //printSolution();
+        this.elapsedTime = System.nanoTime() - start;
     }
 
-    public void printSolution() {
-        System.out.println(this.solution.getMapAbsolutePositionResidential());
-        System.out.print(this.solution.toString());
-        System.out.println("Final fitness: " + solution.getFitness());
-    }
-
-    public Individual getSolution() {
-        return solution;
-    }
 }
