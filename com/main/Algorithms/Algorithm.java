@@ -23,4 +23,12 @@ public class Algorithm {
         System.out.println("Elapsed Time: " + this.elapsedTime + "ns or " +  (this.elapsedTime/(10e-9)) + "s.");
 
     }
+
+    public Individual getSolution() {
+        return solution;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
+    }
 }
