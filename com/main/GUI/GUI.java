@@ -12,11 +12,12 @@ import java.util.Hashtable;
 
 public class GUI {
 
+    File yourFile;
     BufferedWriter writer;
     Problem problem;
 
     public GUI(Problem problem, String outputfile) throws IOException {
-        File yourFile = new File(outputfile);
+        yourFile = new File(outputfile);
 
         yourFile.createNewFile();
         this.writer = new BufferedWriter(new FileWriter(outputfile));
@@ -107,5 +108,9 @@ public class GUI {
 
         this.writer.close();
 
+    }
+
+    public File getYourFile() {
+        return yourFile;
     }
 }

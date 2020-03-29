@@ -99,6 +99,8 @@ public class Main {
         gui.makeFooter();
         gui.closeUp();
 
+        System.out.println("Checkout the results in: " + gui.getYourFile().getAbsolutePath());
+
     }
 
     static private boolean parseArgs(String[] args) {
