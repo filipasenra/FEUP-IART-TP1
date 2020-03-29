@@ -27,6 +27,15 @@ public class SimulatedAnnealing extends Algorithm {
         solution.initiateGrid();
     }
 
+    public SimulatedAnnealing(Problem problem, int nRepeat, double T, double Tmin, double alpha, Individual solution) {
+        super(problem, nRepeat, solution);
+
+        this.nRepeat = nRepeat;
+        this.T = T;
+        this.Tmin = Tmin;
+        this.alpha = alpha;
+    }
+
     public void solve() {
 
         this.startProgressBar();

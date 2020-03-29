@@ -19,6 +19,11 @@ public class HillClimbing extends Algorithm{
         solution.initiateGrid();
     }
 
+    public HillClimbing(Problem problem, int nRepeat, Individual solution){
+        super(problem, nRepeat, solution);
+
+        this.nRepeat = nRepeat;
+    }
 
     public void solve(){
 

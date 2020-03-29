@@ -34,6 +34,15 @@ public class TabuSearch extends Algorithm{
         this.alpha = alpha;
     }
 
+    public TabuSearch(Problem problem, boolean random, int nRepeat, double T, double alpha, Individual solution) {
+        super(problem, nRepeat, solution);
+        this.random = random;
+
+        this.nRepeat = nRepeat;
+        this.T = T;
+        this.alpha = alpha;
+    }
+
 
     public void solve() {
 

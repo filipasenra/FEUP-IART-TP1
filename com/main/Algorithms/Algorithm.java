@@ -26,6 +26,11 @@ public class Algorithm {
         this.total_n = total_n;
     }
 
+    public Algorithm(Problem problem, int total_n, Individual solution) {
+        this(problem, total_n);
+        this.solution = solution;
+    }
+
     public void printSolution() {
 
         System.out.println("--------------------------------------");

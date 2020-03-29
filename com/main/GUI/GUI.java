@@ -62,12 +62,24 @@ public class GUI {
     }
 
     public void makeAlgorithm(Algorithm algorithm, String title) throws IOException {
+
+        makeIndividual(algorithm.getSolution(), title);
+
+        StringBuilder html = new StringBuilder();
+        html.append("<p><b>Elapsed Time: </b>").append(algorithm.getElapsedTime()).append("ns or " + (algorithm.getElapsedTime()/(10e9)) + "s</p>");
+        html.append("</div>");
+
+        this.writer.write(html.toString());
+    }
+
+    public void makeIndividual(Individual individual, String title) throws IOException {
         StringBuilder html = new StringBuilder();
 
-        html.append("<h2>").append(title).append("</h2>\n");
         html.append("<div class=CityPlan>\n");
 
-        Hashtable<Pair<Integer, Integer>, Integer> gridMap = algorithm.getSolution().getGridMap();
+        html.append("<h2>").append(title).append("</h2>\n");
+
+        Hashtable<Pair<Integer, Integer>, Integer> gridMap = individual.getGridMap();
 
         for (int i = 0; i < this.problem.getRows(); i++) {
 
@@ -93,15 +105,10 @@ public class GUI {
             html.append("</div>\n");
         }
 
-        html.append("<div class=info>");
-
-        html.append("<p><b> Fitness: </b>").append(algorithm.getSolution().getFitness()).append("</p>");
-        html.append("<p><b>Elapsed Time: </b>").append(algorithm.getElapsedTime()).append("ns or " + (algorithm.getElapsedTime()/(10e9)) + "s</p>");
-        html.append("</div>");
-
-        html.append("</div>");
-
+        html.append("<p><b> Fitness: </b>").append(individual.getFitness()).append("</p>");
         this.writer.write(html.toString());
+
+        html.append("</div>");
     }
 
     public void closeUp() throws IOException {
