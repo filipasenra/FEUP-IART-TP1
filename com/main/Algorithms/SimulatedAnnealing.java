@@ -1,6 +1,7 @@
 package com.main.Algorithms;
 
 import com.main.Model.Problem;
+
 import java.util.Random;
 
 public class SimulatedAnnealing extends Algorithm {
@@ -14,8 +15,8 @@ public class SimulatedAnnealing extends Algorithm {
     // Decrease in temperature
     final double alpha;
 
-    public SimulatedAnnealing(Problem problem, int nRepeat, double T, double Tmin, double alpha ) {
-        super(problem);
+    public SimulatedAnnealing(Problem problem, int nRepeat, double T, double Tmin, double alpha) {
+        super(problem, nRepeat);
 
         this.nRepeat = nRepeat;
         this.T = T;
@@ -28,28 +29,28 @@ public class SimulatedAnnealing extends Algorithm {
 
     public void solve() {
 
+        this.startProgressBar();
+
         long start = System.nanoTime();
 
         Random rand = new Random();
 
-        while (T > Tmin) {
+        for (int i = 0; i < nRepeat; i++) {
+            this.n++;
 
-            for (int i = 0; i < nRepeat; i++) {
-                Individual solutionI = this.solution.clone();
-                solutionI.mutate();
+            Individual solutionI = this.solution.clone();
+            solutionI.mutate();
 
-                if (solutionI.getFitness() > this.solution.getFitness()) {
+            if (solutionI.getFitness() > this.solution.getFitness()) {
 
+                this.solution = solutionI;
+
+            } else {
+
+                int delta = solutionI.getFitness() - this.solution.getFitness();
+
+                if (rand.nextInt(1) > Math.pow(Math.E, (-1 * delta) / T)) {
                     this.solution = solutionI;
-
-                } else {
-
-                    int delta = solutionI.getFitness() - this.solution.getFitness();
-
-                    if (rand.nextInt(1) > Math.pow(Math.E, (-1*delta)/ T))
-                    {
-                        this.solution = solutionI;
-                    }
                 }
             }
 
@@ -57,6 +58,8 @@ public class SimulatedAnnealing extends Algorithm {
         }
 
         this.elapsedTime = System.nanoTime() - start;
+
+        this.endProgressBar();
     }
 
 }

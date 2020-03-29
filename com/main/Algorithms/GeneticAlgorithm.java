@@ -7,8 +7,7 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 public class GeneticAlgorithm extends Algorithm {
@@ -22,7 +21,7 @@ public class GeneticAlgorithm extends Algorithm {
     double percentageToMutate;
 
     public GeneticAlgorithm(Problem problem, int sizePopulation, int nRepeat, double percentageToKeep, double percentageToMate, double percentageToMutate) {
-        super(problem);
+        super(problem, nRepeat);
 
         this.nRepeat = nRepeat;
         this.percentageToKeep = percentageToKeep;
@@ -69,14 +68,19 @@ public class GeneticAlgorithm extends Algorithm {
 
     public void solve() {
 
+        this.startProgressBar();
+
         long start = System.nanoTime();
 
         for(int i = 0; i < this.nRepeat; i++) {
+            this.n++;
+
             this.performIteration();
         }
 
         this.elapsedTime = System.nanoTime() - start;
 
         this.solution = this.population.getPopulation().get(0);
+        this.endProgressBar();
     }
 }

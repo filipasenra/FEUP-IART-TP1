@@ -18,15 +18,15 @@ public class TabuSearch extends Algorithm{
     // Decrease in temperature
     double alpha;
 
-    public TabuSearch(Problem problem) {
-        super(problem);
+    public TabuSearch(Problem problem, int nRepeat) {
+        super(problem, nRepeat);
 
         solution = new Individual(problem);
         solution.initiateGrid();
     }
 
     public TabuSearch(Problem problem, boolean random, int nRepeat, double T, double alpha) {
-        this(problem);
+        this(problem, nRepeat);
         this.random = random;
 
         this.nRepeat = nRepeat;
@@ -37,11 +37,15 @@ public class TabuSearch extends Algorithm{
 
     public void solve() {
 
+        this.startProgressBar();
+
         long start = System.nanoTime();
 
         Random rand = new Random();
 
         for (int i = 0; i < this.nRepeat; i++) {
+            this.n++;
+
             Individual newIndividual;
 
             do {
@@ -69,6 +73,7 @@ public class TabuSearch extends Algorithm{
         }
 
         this.elapsedTime = System.nanoTime() - start;
+        this.endProgressBar();
     }
 
 }

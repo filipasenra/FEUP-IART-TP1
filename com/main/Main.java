@@ -43,37 +43,37 @@ public class Main {
 
         GeneticAlgorithm geneticAlgorithm = null;
         if(typeToPerform == Type.GENETIC || typeToPerform == Type.ALL) {
+            System.out.println("Starting Genetic Algorithm");
             geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), size_population, nRepeat, percentage_to_keep, percentage_to_mate, percentage_to_mutate);
             geneticAlgorithm.solve();
-            geneticAlgorithm.printSolution();
         }
 
         SimulatedAnnealing simulatedAnnealing = null;
         if(typeToPerform == Type.SA || typeToPerform == Type.ALL) {
+            System.out.println("Starting Simulated Annealing Algorithm");
             simulatedAnnealing = new SimulatedAnnealing(parser.getProblem(), nRepeat, T, Tmin, alpha);
             simulatedAnnealing.solve();
-            simulatedAnnealing.printSolution();
         }
 
         HillClimbing hillClimbing = null;
         if(typeToPerform == Type.HC || typeToPerform == Type.ALL) {
+            System.out.println("Starting Hill Climbing Algorithm");
             hillClimbing = new HillClimbing(parser.getProblem(), nRepeat);
             hillClimbing.solve();
-            hillClimbing.printSolution();
         }
 
         TabuSearch tabuSearch = null;
         if(typeToPerform == Type.TS || typeToPerform == Type.ALL) {
+            System.out.println("Starting Tabu Search Algorithm");
             tabuSearch = new TabuSearch(parser.getProblem(), is_tabu_search_random, nRepeat, T, alpha);
             tabuSearch.solve();
-            tabuSearch.printSolution();
         }
 
         TabuSearch tabuSearchRandom = null;
         if(typeToPerform == Type.ALL) {
+            System.out.println("Starting Tabu Search Random Algorithm");
             tabuSearchRandom = new TabuSearch(parser.getProblem(), !is_tabu_search_random, nRepeat, T, alpha);
             tabuSearchRandom.solve();
-            tabuSearchRandom.printSolution();
         }
 
         GUI gui = new GUI(parser.getProblem(), "results.html");

@@ -11,7 +11,7 @@ public class HillClimbing extends Algorithm{
     int nRepeat;
 
     public HillClimbing(Problem problem, int nRepeat){
-        super(problem);
+        super(problem, nRepeat);
 
         this.nRepeat = nRepeat;
 
@@ -22,11 +22,14 @@ public class HillClimbing extends Algorithm{
 
     public void solve(){
 
+        this.startProgressBar();
+
         long start = System.nanoTime();
 
         Individual newIndividual = solution.clone();
 
         for (int i = 0 ; i < this.nRepeat; i++){
+            this.n++;
 
            newIndividual.mutate();
 
@@ -37,6 +40,8 @@ public class HillClimbing extends Algorithm{
         }
 
         this.elapsedTime = System.nanoTime() - start;
+
+        this.endProgressBar();
 
     }
 
