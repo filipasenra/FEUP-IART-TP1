@@ -96,7 +96,7 @@ public class GUI {
         html.append("<div class=info>");
 
         html.append("<p><b> Fitness: </b>").append(algorithm.getSolution().getFitness()).append("</p>");
-        html.append("<p><b>Elapsed Time: </b>").append(algorithm.getElapsedTime()).append("ns</p>");
+        html.append("<p><b>Elapsed Time: </b>").append(algorithm.getElapsedTime()).append("ns or " + (algorithm.getElapsedTime()/(10e-9)) + "s</p>");
         html.append("</div>");
 
         html.append("</div>");
