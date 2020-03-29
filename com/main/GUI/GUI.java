@@ -5,7 +5,6 @@ import com.main.Model.Problem;
 import com.main.Model.Project;
 import com.main.Model.ResidentialProject;
 import com.main.Model.UtilityProject;
-import com.main.Parser.Parser;
 import javafx.util.Pair;
 
 import java.io.*;
@@ -24,44 +23,7 @@ public class GUI {
         this.problem = problem;
     }
 
-    public static void main(String[] args) throws IOException {
-
-        Parser parser = new Parser("./src/com/main/inputFiles/b_short_walk.in");
-        parser.parseFile();
-        System.out.println("Finish Parsing File");
-
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), 200, 400, 0.1, 0.5, 0.5);
-        geneticAlgorithm.solve();
-        geneticAlgorithm.printSolution();
-
-        SimulatedAnnealing simulatedAnnealing = new SimulatedAnnealing(parser.getProblem(), 100000, 1, .0001, 0.5);
-        simulatedAnnealing.solve();
-        simulatedAnnealing.printSolution();
-
-        HillClimbing hillClimbing = new HillClimbing(parser.getProblem(), 1000000);
-        hillClimbing.solve();
-        hillClimbing.printSolution();
-
-        TabuSearch tabuSearch = new TabuSearch(parser.getProblem(), true, 100000, 1, 0.5);
-        tabuSearch.solve();
-        tabuSearch.printSolution();
-
-        GUI gui = new GUI(parser.getProblem());
-
-        gui.makeHeader();
-        gui.makeLegend();
-        gui.makeAlgorithm(geneticAlgorithm, "Genetic Algorithm");
-        gui.makeAlgorithm(simulatedAnnealing, "Simulated Annealing");
-        gui.makeAlgorithm(hillClimbing, "Hill Climbing");
-        gui.makeAlgorithm(tabuSearch, "Tabu Search");
-
-        gui.makeFooter();
-
-        gui.writer.close();
-
-    }
-
-    private void makeHeader() throws IOException {
+    public void makeHeader() throws IOException {
         this.writer.write("<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "\n" +
@@ -73,13 +35,13 @@ public class GUI {
                 "<body>");
     }
 
-    private void makeFooter() throws IOException {
+    public void makeFooter() throws IOException {
 
         this.writer.write("</body>\n" +
                 "</html>");
     }
 
-    private void makeLegend() throws IOException {
+    public void makeLegend() throws IOException {
         String html = "";
 
 
@@ -97,47 +59,52 @@ public class GUI {
 
     }
 
-    private void makeAlgorithm(Algorithm algorithm, String title) throws IOException {
-        String html = "";
+    public void makeAlgorithm(Algorithm algorithm, String title) throws IOException {
+        StringBuilder html = new StringBuilder();
 
-        html += "<h2>"+ title + "</h2>\n";
-        html += "<div class=CityPlan>\n";
+        html.append("<h2>").append(title).append("</h2>\n");
+        html.append("<div class=CityPlan>\n");
 
         Hashtable<Pair<Integer, Integer>, Integer> gridMap = algorithm.getSolution().getGridMap();
 
         for (int i = 0; i < this.problem.getRows(); i++) {
 
-            html += "<div class=\"row\">";
+            html.append("<div class=\"row\">");
             for (int j = 0; j < this.problem.getColumns(); j++) {
 
                 Pair<Integer, Integer> location = new Pair<>(i, j);
 
                 if (gridMap.containsKey(location)) {
-                    html += "<div ";
+                    html.append("<div ");
 
                     Project proj = this.problem.getProjects().get(gridMap.get(location));
 
-                    if(proj.getClass() == ResidentialProject.class)
-                        html += "class=\"grid residential\"";
-                    else if(proj.getClass() == UtilityProject.class)
-                        html += "class=\"grid utility\"";
+                    if (proj.getClass() == ResidentialProject.class)
+                        html.append("class=\"grid residential\"");
+                    else if (proj.getClass() == UtilityProject.class)
+                        html.append("class=\"grid utility\"");
 
-                    html += ">" + gridMap.get(location) + "</div>\n";
+                    html.append(">").append(gridMap.get(location)).append("</div>\n");
                 } else
-                    html += "<div class=\"grid\"></div>\n";
-                ;
+                    html.append("<div class=\"grid\"></div>\n");
             }
-            html += "</div>\n";
+            html.append("</div>\n");
         }
 
-        html+="<div class=info>";
+        html.append("<div class=info>");
 
-        html += "<p><b> Fitness: </b>" + algorithm.getSolution().getFitness() + "</p>";
-        html += "<p><b>Elapsed Time: </b>" + algorithm.getElapsedTime() + "ns</p>";
-        html += "</div>";
+        html.append("<p><b> Fitness: </b>").append(algorithm.getSolution().getFitness()).append("</p>");
+        html.append("<p><b>Elapsed Time: </b>").append(algorithm.getElapsedTime()).append("ns</p>");
+        html.append("</div>");
 
-        html += "</div>";
+        html.append("</div>");
 
-        this.writer.write(html);
+        this.writer.write(html.toString());
+    }
+
+    public void closeUp() throws IOException {
+
+        this.writer.close();
+
     }
 }
