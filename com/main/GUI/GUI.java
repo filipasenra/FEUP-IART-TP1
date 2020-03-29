@@ -15,11 +15,11 @@ public class GUI {
     BufferedWriter writer;
     Problem problem;
 
-    public GUI(Problem problem) throws IOException {
-        File yourFile = new File("index.html");
+    public GUI(Problem problem, String outputfile) throws IOException {
+        File yourFile = new File(outputfile);
 
         yourFile.createNewFile();
-        this.writer = new BufferedWriter(new FileWriter("index.html"));
+        this.writer = new BufferedWriter(new FileWriter(outputfile));
         this.problem = problem;
     }
 
@@ -41,12 +41,13 @@ public class GUI {
                 "</html>");
     }
 
-    public void makeLegend() throws IOException {
+    public void makeLegend(String inputfile) throws IOException {
         String html = "";
 
 
         html += "<h1>City Plan Optimization</h1>";
         html += "<p>Made by: Filipa Senra, Claudia Martins, Andreia Gouveia | IART | FEUP | 2020 </p>";
+        html += "<p id=\"inputFile\"><b>InputFile:</b> " + inputfile + "</p>";
         html += "<p id=\"legendText\"><b>Legend:</b></p>";
 
         html += "<div class=legend>";

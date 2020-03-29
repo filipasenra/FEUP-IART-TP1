@@ -6,6 +6,7 @@ import com.main.Model.UtilityProject;
 import javafx.util.Pair;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,27 +22,22 @@ public class Parser {
 
     }
 
-    public void parseFile() {
+    public void parseFile() throws IOException {
 
 
-        try {
-            FileReader input = new FileReader(file);
-            BufferedReader bufRead = new BufferedReader(input);
+        FileReader input = new FileReader(file);
+        BufferedReader bufRead = new BufferedReader(input);
 
-            int nBuildingPlans;
-            if ((nBuildingPlans = parseProblem(bufRead)) == -1) {
+        int nBuildingPlans;
+        if ((nBuildingPlans = parseProblem(bufRead)) == -1) {
+            return;
+        }
+
+        for (int i = 0; i < nBuildingPlans; i++) {
+
+            if (!this.parseBuilding(bufRead, i))
                 return;
-            }
 
-            for (int i = 0; i < nBuildingPlans; i++) {
-
-                if (!this.parseBuilding(bufRead, i))
-                    return;
-
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
@@ -70,7 +66,7 @@ public class Parser {
         String myLine;
 
         //parse main info
-        if((myLine = bufRead.readLine()) == null)
+        if ((myLine = bufRead.readLine()) == null)
             return false;
 
         String[] buildingCharacteristics = myLine.split(" ");
@@ -83,17 +79,16 @@ public class Parser {
 
         //parse occupied cells
         ArrayList<Pair<Integer, Integer>> occupiedCells = new ArrayList<>();
-        for(int i = 0; i < rows; i++){
+        for (int i = 0; i < rows; i++) {
 
-            if((myLine = bufRead.readLine()) == null)
+            if ((myLine = bufRead.readLine()) == null)
                 return false;
 
             String[] occupiedCellsLine = myLine.split("");
 
-            for(int j = 0; j < occupiedCellsLine.length; j++){
+            for (int j = 0; j < occupiedCellsLine.length; j++) {
 
-                if(occupiedCellsLine[j].equals("#"))
-                {
+                if (occupiedCellsLine[j].equals("#")) {
                     occupiedCells.add(new Pair(i, j));
                 }
             }
@@ -101,9 +96,9 @@ public class Parser {
         }
 
         //adding project to city plan
-        if(type.equals("R"))
+        if (type.equals("R"))
             this.problem.addProject(new ResidentialProject(nProject, rows, columns, capacityORtype, occupiedCells));
-        else if(type.equals("U"))
+        else if (type.equals("U"))
             this.problem.addProject(new UtilityProject(nProject, rows, columns, capacityORtype, occupiedCells));
         else
             return false;
