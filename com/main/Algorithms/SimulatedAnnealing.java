@@ -10,29 +10,25 @@ public class SimulatedAnnealing extends Algorithm {
 
     // Initial temperature
     double T;
-    // Temperature at which iteration terminates
-    final double Tmin;
     // Decrease in temperature
     final double alpha;
 
-    public SimulatedAnnealing(Problem problem, int nRepeat, double T, double Tmin, double alpha) {
+    public SimulatedAnnealing(Problem problem, int nRepeat, double T, double alpha) {
         super(problem, nRepeat);
 
         this.nRepeat = nRepeat;
         this.T = T;
-        this.Tmin = Tmin;
         this.alpha = alpha;
 
         solution = new Individual(problem);
         solution.initiateGrid();
     }
 
-    public SimulatedAnnealing(Problem problem, int nRepeat, double T, double Tmin, double alpha, Individual solution) {
+    public SimulatedAnnealing(Problem problem, int nRepeat, double T, double alpha, Individual solution) {
         super(problem, nRepeat, solution);
 
         this.nRepeat = nRepeat;
         this.T = T;
-        this.Tmin = Tmin;
         this.alpha = alpha;
     }
 

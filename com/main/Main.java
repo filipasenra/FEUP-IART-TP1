@@ -24,7 +24,6 @@ public class Main {
     static double percentage_to_mate;
     static double percentage_to_mutate;
     static double T;
-    static double Tmin;
     static double alpha;
     static boolean is_tabu_search_random = false;
 
@@ -39,11 +38,11 @@ public class Main {
         System.out.println("Finish Parsing File");
 
         GeneticAlgorithm geneticAlgorithm = null;
-        if(typeToPerform == Type.GENETIC || typeToPerform == Type.ALL) {
+        /*if(typeToPerform == Type.GENETIC || typeToPerform == Type.ALL) {
             System.out.println("Starting Genetic Algorithm");
             geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), size_population, nRepeat, percentage_to_keep, percentage_to_mate, percentage_to_mutate);
             geneticAlgorithm.solve();
-        }
+        }*/
 
         Individual initialSolution = new Individual(parser.getProblem());
         initialSolution.initiateGrid();
@@ -51,7 +50,7 @@ public class Main {
         SimulatedAnnealing simulatedAnnealing = null;
         if(typeToPerform == Type.SA || typeToPerform == Type.ALL) {
             System.out.println("Starting Simulated Annealing Algorithm");
-            simulatedAnnealing = new SimulatedAnnealing(parser.getProblem(), nRepeat, T, Tmin, alpha, initialSolution.clone());
+            simulatedAnnealing = new SimulatedAnnealing(parser.getProblem(), nRepeat, T, alpha, initialSolution.clone());
             simulatedAnnealing.solve();
         }
 
@@ -108,10 +107,10 @@ public class Main {
 
     static private boolean parseArgs(String[] args) {
 
-        if (args.length != 3 && args.length != 5 && args.length != 6 && args.length != 7 && args.length != 9) {
+        if (args.length != 3 && args.length != 5 && args.length != 6 && args.length != 7 && args.length != 8) {
 
             System.err.println("Usage: Main HillClimbing <inputFile> <nRepeat>");
-            System.err.println("Usage: Main SimulatedAnnealing <inputFile> <nRepeat> <T> <Tmin> <alpha>");
+            System.err.println("Usage: Main SimulatedAnnealing <inputFile> <nRepeat> <T> <alpha>");
             System.err.println("Usage: Main TabuSearch <inputFile> <nRepeat> <T> <alpha> [<is_tabu_search_random>]");
             System.err.println("Usage: Main Genetic <inputFile> <nRepeat> <size_population> <percentage_to_keep> <percentage_to_mate> <percentage_to_mutate>");
             System.err.println("Usage: Main <inputFile> <nRepeat> <size_population> <percentage_to_keep> <percentage_to_mate> <percentage_to_mutate> <T> <Tmin> <alpha>");
@@ -134,8 +133,8 @@ public class Main {
 
         if (args[0].equals("SimulatedAnnealing")) {
 
-            if (args.length != 6) {
-                System.err.println("Usage: Main SimulatedAnnealing <inputFile> <nRepeat> <T> <Tmin> <alpha>");
+            if (args.length != 5) {
+                System.err.println("Usage: Main SimulatedAnnealing <inputFile> <nRepeat> <T> <alpha>");
                 return false;
             }
 
@@ -143,8 +142,7 @@ public class Main {
             inputFile = args[1];
             nRepeat = Integer.parseInt(args[2]);
             T = Double.parseDouble(args[3]);
-            Tmin = Double.parseDouble(args[4]);
-            alpha = Double.parseDouble(args[5]);
+            alpha = Double.parseDouble(args[4]);
             return true;
         }
 
@@ -164,7 +162,7 @@ public class Main {
             }
 
             if (args.length == 6)
-                is_tabu_search_random = Boolean.parseBoolean(args[4]);
+                is_tabu_search_random = Boolean.parseBoolean(args[5]);
 
             return true;
         }
@@ -194,8 +192,7 @@ public class Main {
         percentage_to_mate = Double.parseDouble(args[4]);
         percentage_to_mutate = Double.parseDouble(args[5]);
         T = Double.parseDouble(args[6]);
-        Tmin = Double.parseDouble(args[7]);
-        alpha = Double.parseDouble(args[8]);
+        alpha = Double.parseDouble(args[7]);
 
         return true;
 
