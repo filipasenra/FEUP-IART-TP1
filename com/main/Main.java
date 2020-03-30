@@ -38,11 +38,11 @@ public class Main {
         System.out.println("Finish Parsing File");
 
         GeneticAlgorithm geneticAlgorithm = null;
-        /*if(typeToPerform == Type.GENETIC || typeToPerform == Type.ALL) {
+        if(typeToPerform == Type.GENETIC || typeToPerform == Type.ALL) {
             System.out.println("Starting Genetic Algorithm");
             geneticAlgorithm = new GeneticAlgorithm(parser.getProblem(), size_population, nRepeat, percentage_to_keep, percentage_to_mate, percentage_to_mutate);
             geneticAlgorithm.solve();
-        }*/
+        }
 
         Individual initialSolution = new Individual(parser.getProblem());
         initialSolution.initiateGrid();
