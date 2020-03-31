@@ -1,12 +1,15 @@
 package com.main.Algorithms;
 
 import com.main.Model.Problem;
+
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Class that performs the Genetic Algorithm
- * */
+ */
 public class GeneticAlgorithm extends Algorithm {
 
     //variables declaration
@@ -20,13 +23,13 @@ public class GeneticAlgorithm extends Algorithm {
 
     /**
      * Genetic algorithm constructor
-     * 
-     * @param problem               problem to be solved
-     * @param sizePopulation        size of the population
-     * @param nRepeat               number of repetitions
-     * @param percentageToKeep      percentage of the population to keep
-     * @param percentageToMate      percentage of the population to mate
-     * @param percentageToMutate    percentage of the population to mutate
+     *
+     * @param problem            problem to be solved
+     * @param sizePopulation     size of the population
+     * @param nRepeat            number of repetitions
+     * @param percentageToKeep   percentage of the population to keep
+     * @param percentageToMate   percentage of the population to mate
+     * @param percentageToMutate percentage of the population to mutate
      */
     public GeneticAlgorithm(Problem problem, int sizePopulation, int nRepeat, double percentageToKeep, double percentageToMate, double percentageToMutate) {
         super(problem, nRepeat);
@@ -52,20 +55,26 @@ public class GeneticAlgorithm extends Algorithm {
 
         Population newPopulation = new Population(fittestIndividuals);
 
-        for(int i = 0; i < this.sizePopulation*(1-percentageToKeep); i++) {
+        ExecutorService es = Executors.newCachedThreadPool();
+        for (int i = 0; i < this.sizePopulation * (1 - percentageToKeep); i++) {
 
-            int bound = (int)(this.sizePopulation*percentageToMate);
+            int bound = (int) (this.sizePopulation * percentageToMate);
 
             Individual parent1 = this.population.getFittestPopulation(percentageToMate).get(rand.nextInt(bound));
             Individual parent2 = this.population.getFittestPopulation(percentageToMate).get(rand.nextInt(bound));
-            Individual offspring = parent1.crossOver(parent2);
-            newPopulation.addIndividual(offspring);
+
+            es.execute(() -> {
+                        Individual offspring = parent1.crossOver(parent2);
+                        newPopulation.addIndividual(offspring);
+                    }
+            );
         }
+        es.shutdown();
 
         //Elitism Keep the percentage of IndividualsToKeep
-        for(int i = 0; i < this.sizePopulation*(1-percentageToMutate); i++) {
+        for (int i = 0; i < this.sizePopulation * (1 - percentageToMutate); i++) {
 
-            int individualsToKeep = (int)(this.sizePopulation*percentageToKeep);
+            int individualsToKeep = (int) (this.sizePopulation * percentageToKeep);
             int n = individualsToKeep + rand.nextInt(newPopulation.getPopulation().size() - individualsToKeep);
             Individual individualToMutate = newPopulation.getPopulation().get(n);
             individualToMutate.mutate();
@@ -84,7 +93,7 @@ public class GeneticAlgorithm extends Algorithm {
 
         long start = System.nanoTime();
 
-        for(int i = 0; i < this.nRepeat; i++) {
+        for (int i = 0; i < this.nRepeat; i++) {
             this.n++;
 
             this.performIteration();
