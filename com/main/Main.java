@@ -18,7 +18,8 @@ enum Type {
 //  Genetic ./src/com/main/inputFiles/c_going_green.in 500 100 0.1 0.5 0.5
 //  TabuSearch ./src/com/main/inputFiles/d_wide_selection.in 20000 1 0.1
 //  ./src/com/main/inputFiles/a_example.in 400 100 0.1 0.5 0.5 1 0.5
-//  ./src/com/main/inputFiles/b_short_walk.in 10000 500 0.1 0.5 0.5 1 0.5
+//  ./src/com/main/inputFiles/b_short_walk.in 1000 500 0.1 0.5 0.5 1 0.5
+//  ./src/com/main/inputFiles/a_example.in 1000 100 0.1 0.5 0.5 1 0.5
 
 public class Main {
 
