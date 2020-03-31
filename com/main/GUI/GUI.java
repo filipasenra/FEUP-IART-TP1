@@ -16,6 +16,13 @@ public class GUI {
     BufferedWriter writer;
     Problem problem;
 
+    /**
+     * GUI constructor
+     * 
+     * @param problem       problem to display
+     * @param outputfile    output file
+     * @throws IOException
+     */
     public GUI(Problem problem, String outputfile) throws IOException {
         yourFile = new File(outputfile);
 
@@ -24,6 +31,11 @@ public class GUI {
         this.problem = problem;
     }
 
+    /**
+     * Function that created the header for the html documment
+     * 
+     * @throws IOException
+     */
     public void makeHeader() throws IOException {
         this.writer.write("<!DOCTYPE html>\n" +
                 "<html>\n" +
@@ -36,12 +48,23 @@ public class GUI {
                 "<body>");
     }
 
+    /**
+     * Function that created the footer for the html documment
+     * 
+     * @throws IOException
+     */
     public void makeFooter() throws IOException {
 
         this.writer.write("</body>\n" +
                 "</html>");
     }
 
+    /**
+     * Function that makes the legend of the results
+     * 
+     * @param inputfile         input file 
+     * @throws IOException
+     */
     public void makeLegend(String inputfile) throws IOException {
         String html = "";
 
@@ -61,6 +84,13 @@ public class GUI {
 
     }
 
+    /**
+     * Function that makes the algorithm 
+     * 
+     * @param algorithm         algorithm to be performed
+     * @param title             name of the algorithm 
+     * @throws IOException
+     */
     public void makeAlgorithm(Algorithm algorithm, String title) throws IOException {
 
         makeIndividual(algorithm.getSolution(), title);
@@ -72,6 +102,13 @@ public class GUI {
         this.writer.write(html.toString());
     }
 
+    /**
+     * Function that makes an individual
+     * 
+     * @param individual        individual
+     * @param title             name of the individual
+     * @throws IOException
+     */
     public void makeIndividual(Individual individual, String title) throws IOException {
         StringBuilder html = new StringBuilder();
 
@@ -111,12 +148,22 @@ public class GUI {
         html.append("</div>");
     }
 
+    /**
+     * Function that allows close up
+     * 
+     * @throws IOException
+     */
     public void closeUp() throws IOException {
 
         this.writer.close();
 
     }
 
+    /**
+     * Function that returns yourFile
+     * 
+     * @return      yourFile
+     */
     public File getYourFile() {
         return yourFile;
     }

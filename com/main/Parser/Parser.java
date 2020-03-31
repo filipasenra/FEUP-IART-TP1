@@ -16,12 +16,20 @@ public class Parser {
     String file;
     Problem problem;
 
+    /**
+    * Parser constructor. 
+    *
+    * @param  file   file to be parsed
+    */
     public Parser(String file) {
 
         this.file = file;
 
     }
 
+    /**
+    * Function that parses the file. 
+    */
     public void parseFile() throws IOException {
 
 
@@ -29,11 +37,11 @@ public class Parser {
         BufferedReader bufRead = new BufferedReader(input);
 
         int nBuildingPlans;
-        if ((nBuildingPlans = parseProblem(bufRead)) == -1) {
+        if ((nBuildingPlans = parseProblem(bufRead)) == -1) { //get number of building plans
             return;
         }
 
-        for (int i = 0; i < nBuildingPlans; i++) {
+        for (int i = 0; i < nBuildingPlans; i++) {//parse all build plans
 
             if (!this.parseBuilding(bufRead, i))
                 return;
@@ -42,6 +50,12 @@ public class Parser {
 
     }
 
+    /**
+    * Function responsible for the parsing of the problem. 
+    *
+    * @param  bufRead   buffer containing the file
+    * @return           the number of building plans, returns -1 in case of ERROR
+    */
     public int parseProblem(BufferedReader bufRead) throws IOException {
 
         String myLine;
@@ -61,6 +75,13 @@ public class Parser {
 
     }
 
+    /**
+    * Function responsible for the parsing of a building. 
+    *
+    * @param  bufRead   buffer containing the file
+    * @param  nProject  number of the project
+    * @return           the number of building plans, returns -1 in case of ERROR
+    */
     public boolean parseBuilding(BufferedReader bufRead, int nProject) throws IOException {
 
         String myLine;
@@ -106,6 +127,11 @@ public class Parser {
         return true;
     }
 
+    /**
+    * Function responsible for returning the problem 
+    *
+    * @return           problem
+    */
     public Problem getProblem() {
         return problem;
     }

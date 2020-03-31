@@ -7,14 +7,34 @@ import java.util.*;
 
 public class Individual extends CityPlan implements Cloneable {
 
+    /**
+     * Individual constructor
+     * 
+     * @param problem       problem to be solved
+     */
     public Individual(Problem problem) {
         super(problem);
     }
 
+    /**
+     * Individual constructor
+     * 
+     * @param problem                           problem to be solved
+     * @param gridMap                           grid map of the individual
+     * @param mapAbsolutePositionUtility        map of the absolute position of the utility projects
+     * @param mapAbsolutePositionResidential    map of the absolute position of the residential projects
+     * @param fitness                           fitness of the solution
+     */
     public Individual(Problem problem, Hashtable<Pair<Integer, Integer>, Integer> gridMap, Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionUtility, Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionResidential, int fitness) {
         super(problem, gridMap, mapAbsolutePositionUtility, mapAbsolutePositionResidential, fitness);
     }
 
+    /**
+     * Cross over an individual
+     * 
+     * @param individual    individual to be crossed over
+     * @return              crossed over individual
+     */
     public Individual crossOver(Individual individual) {
 
 
@@ -29,6 +49,13 @@ public class Individual extends CityPlan implements Cloneable {
 
     }
 
+    /**
+     * Function that crosses over two individuals
+     * 
+     * @param mutatedIndividual             mutated individual
+     * @param currentAbsoluteLocation       current absolute location
+     * @param individualAbsoluteLocation    individual absolute location
+     */
     public void crossOverSpecificType(Individual mutatedIndividual, Hashtable<Pair<Integer, Integer>, Integer> currentAbsoluteLocation, Hashtable<Pair<Integer, Integer>, Integer> individualAbsoluteLocation) {
 
         Random rand = new Random();
@@ -67,6 +94,9 @@ public class Individual extends CityPlan implements Cloneable {
         }
     }
 
+    /**
+     * Function that mutates an individual
+     */
     public void mutate() {
 
         Random rand = new Random();
@@ -93,6 +123,13 @@ public class Individual extends CityPlan implements Cloneable {
 
     }
 
+    /**
+     * Function that adds a project with collisions
+     * 
+     * @param project       project to be added
+     * @param location      location to add the project
+     * @return              true if project was successfully added
+     */
     public boolean addProjectWithCollisions(Project project, Pair<Integer, Integer> location) {
 
         int maxRow = location.getKey()+project.getRows();
@@ -132,6 +169,11 @@ public class Individual extends CityPlan implements Cloneable {
         return true;
     }
 
+    /**
+     * Function that erases collisions
+     * 
+     * @param location      location of the collision to erase
+     */
     void eraseCollisions(Pair<Integer, Integer> location) {
 
         Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePosition;
@@ -165,6 +207,9 @@ public class Individual extends CityPlan implements Cloneable {
 
     }
 
+    /**
+     * Methods that allows the comparison individuals
+     */
     @Override
     public boolean equals(Object obj) {
 
@@ -175,6 +220,9 @@ public class Individual extends CityPlan implements Cloneable {
         return (this.mapAbsolutePositionUtility.equals(individual.mapAbsolutePositionUtility)) && (this.mapAbsolutePositionResidential.equals(individual.mapAbsolutePositionResidential));
     }
 
+    /**
+     * Method that allows for one individual to be cloned
+     */
     @Override
     public Individual clone() {
 

@@ -18,6 +18,12 @@ public class TabuSearch extends Algorithm{
     // Decrease in temperature
     double alpha;
 
+    /**
+     * Tabu Search constructor
+     * 
+     * @param problem       problem to be solved
+     * @param nRepeat       number of repetitions
+     */
     public TabuSearch(Problem problem, int nRepeat) {
         super(problem, nRepeat);
 
@@ -25,6 +31,15 @@ public class TabuSearch extends Algorithm{
         solution.initiateGrid();
     }
 
+    /**
+     * Tabu Search constructor
+     * 
+     * @param problem       problem to be solved
+     * @param random        boolean that tells if its random
+     * @param nRepeat       number of repetitions
+     * @param T             Initial temperature     
+     * @param alpha         Decrease in temperature
+     */
     public TabuSearch(Problem problem, boolean random, int nRepeat, double T, double alpha) {
         this(problem, nRepeat);
         this.random = random;
@@ -34,6 +49,16 @@ public class TabuSearch extends Algorithm{
         this.alpha = alpha;
     }
 
+    /**
+     * Tabu Search constructor
+     * 
+     * @param problem       problem to be solved
+     * @param random        boolean that tells if its random
+     * @param nRepeat       number of repetitions
+     * @param T             Initial temperature     
+     * @param alpha         Decrease in temperature
+     * @param solution      solution for the problem
+     */
     public TabuSearch(Problem problem, boolean random, int nRepeat, double T, double alpha, Individual solution) {
         super(problem, nRepeat, solution);
         this.random = random;
@@ -44,6 +69,9 @@ public class TabuSearch extends Algorithm{
     }
 
 
+    /**
+     * Function that solves the problem
+     */
     public void solve() {
 
         this.startProgressBar();

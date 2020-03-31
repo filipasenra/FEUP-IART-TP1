@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 public class GeneticAlgorithm extends Algorithm {
 
+    //variables declaration
     Population population;
     int sizePopulation;
 
@@ -20,6 +21,16 @@ public class GeneticAlgorithm extends Algorithm {
     double percentageToMate;
     double percentageToMutate;
 
+    /**
+     * Genetic algorithm constructor
+     * 
+     * @param problem               problem to be solved
+     * @param sizePopulation        size of the population
+     * @param nRepeat               number of repetitions
+     * @param percentageToKeep      percentage of the population to keep
+     * @param percentageToMate      percentage of the population to mate
+     * @param percentageToMutate    percentage of the population to mutate
+     */
     public GeneticAlgorithm(Problem problem, int sizePopulation, int nRepeat, double percentageToKeep, double percentageToMate, double percentageToMutate) {
         super(problem, nRepeat);
 
@@ -33,6 +44,11 @@ public class GeneticAlgorithm extends Algorithm {
         this.population.sortPopulation();
     }
 
+    /**
+     * Function that performs the iteration
+     * 
+     * @return      true if the operation is successfull
+     */
     private boolean performIteration() {
 
         Random rand = new Random();
@@ -66,6 +82,9 @@ public class GeneticAlgorithm extends Algorithm {
         return false;
     }
 
+    /**
+     * Function that solves the problem
+     */
     public void solve() {
 
         this.startProgressBar();

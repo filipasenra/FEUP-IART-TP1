@@ -16,10 +16,24 @@ public class CityPlan {
 
     //Pair<Row, Col>
 
+    /**
+     * City Plan constructor
+     * 
+     * @param problem       problem to be solved
+     */
     public CityPlan(Problem problem) {
         this.problem = problem;
     }
 
+    /**
+     * City Plan constructor
+     * 
+     * @param problem                           problem to be solved
+     * @param gridMap                           hash table with the grid map
+     * @param mapAbsolutePositionUtility        map with the absolute position of the utility buildings
+     * @param mapAbsolutePositionResidential    map with the absolute position of the residential buildings
+     * @param fitness                           fitness of the problem
+     */
     public CityPlan(Problem problem, Hashtable<Pair<Integer, Integer>, Integer> gridMap, Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionUtility, Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionResidential, int fitness) {
         this.problem = problem;
         this.gridMap = gridMap;
@@ -28,6 +42,9 @@ public class CityPlan {
         this.fitness = fitness;
     }
 
+    /**
+     * Function that gives the initial solution (randomly generated), initiating the grid
+     */
     public void initiateGrid() {
         Random rand = new Random();
 
@@ -51,6 +68,13 @@ public class CityPlan {
         this.calculateFitness();
     }
 
+    /**
+     * Function that checks if a project is compatible
+     *  
+     * @param project   project to check
+     * @param location  desired location to insert the project on
+     * @return          returns true if the project can be added and false if it can't be added 
+     */
     public boolean checkIfCompatible(Project project, Pair<Integer, Integer> location) {
 
         int maxRow = location.getKey()+project.getRows();
@@ -77,6 +101,12 @@ public class CityPlan {
         return true;
     }
 
+    /**
+     * Function that adds the project
+     * 
+     * @param project       project to be added 
+     * @param location      desired location to insert the project on
+     */
     public void addProject(Project project, Pair<Integer, Integer> location) {
 
         if (project.getClass() == ResidentialProject.class)
@@ -99,7 +129,12 @@ public class CityPlan {
 
     }
 
-
+    /**
+     * Function that erases the project from the solution
+     * 
+     * @param project   project to be erased
+     * @param location  desired location to erase the project
+     */
     public void eraseProject(Project project, Pair<Integer, Integer> location) {
 
         if (project.getClass() == ResidentialProject.class)
@@ -122,6 +157,9 @@ public class CityPlan {
 
     }
 
+    /**
+     * Function that calculates the fitness of the solution
+     */
     public void calculateFitness() {
         this.fitness = 0;
         int minimumManhattanDistance = this.problem.getMaximumWalkingDistance();
@@ -174,7 +212,13 @@ public class CityPlan {
         });
     }
 
-    //Adds the Fitness of this cell (if it has any unique amenity)
+    /**
+     * Function that adds the Fitness of this cell (if it has any unique amenity)
+     * 
+     * @param location                          location of the cell 
+     * @param idResidential                     id of the residential
+     * @param typeOfServicesPerResidential      type of services per residential
+     */
     private void addFitness(Pair<Integer, Integer> location, int idResidential, ArrayList<Integer> typeOfServicesPerResidential) {
 
         if (this.isUtilityInRange(location)) {
@@ -184,7 +228,12 @@ public class CityPlan {
         }
     }
 
-    //Checks if the location is an Utility Project
+    /**
+     * Function that checks if the location is an Utility Project
+     * 
+     * @param location      location to be checked
+     * @return              if the location inserted is an utility project
+     */
     private boolean isUtilityInRange(Pair<Integer, Integer> location) {
 
         if (!this.gridMap.containsKey(location))
@@ -196,7 +245,13 @@ public class CityPlan {
 
     }
 
-    //Adds Utility to the Residential Building and adds its fitness
+    /**
+     * Function that adds Utility to the Residential Building and adds its fitness
+     * 
+     * @param idResidential                     residential to add utility into
+     * @param idUtility                         utility to be added
+     * @param typeOfServicesPerResidential      type of services per residential
+     */
     private void addUtilityToResidential(int idResidential, int idUtility, ArrayList<Integer> typeOfServicesPerResidential) {
 
         UtilityProject utilityProject = (UtilityProject) this.problem.getProjects().get(idUtility);
@@ -211,31 +266,66 @@ public class CityPlan {
 
     }
 
+    /**
+     * Function that returns  the manhattan distance
+     * 
+     * @param location1     first location
+     * @param location2     second location
+     * @return              returns the manhattan distance between the first and second location
+     */
     private int manhattanDistance(Pair<Integer, Integer> location1, Pair<Integer, Integer> location2) {
 
         return abs(location1.getKey() - location2.getKey()) + abs(location1.getValue() - location2.getValue());
     }
 
+    /**
+     * Function that returns the fitness
+     * 
+     * @return  fitness
+     */
     public int getFitness() {
         return fitness;
     }
 
+    /**
+     * Function that returns the map of the absolute position utility
+     * 
+     * @return      map of the absolute position utility
+     */
     public Hashtable<Pair<Integer, Integer>, Integer> getMapAbsolutePositionUtility() {
         return mapAbsolutePositionUtility;
     }
 
+    /**
+     * Function that returns the map absolute position residential
+     * 
+     * @return      map absolute position residential
+     */
     public Hashtable<Pair<Integer, Integer>, Integer> getMapAbsolutePositionResidential() {
         return mapAbsolutePositionResidential;
     }
 
+    /**
+     * Function that returns the problem
+     * 
+     * @return      problem
+     */
     public Problem getProblem() {
         return problem;
     }
 
+    /**
+     * Function that returns the grid map
+     * 
+     * @return      grid map
+     */
     public Hashtable<Pair<Integer, Integer>, Integer> getGridMap() {
         return gridMap;
     }
 
+    /**
+     * Method that converts the grid into a string
+     */
     @Override
     public String toString() {
 

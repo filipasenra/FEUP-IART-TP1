@@ -8,11 +8,18 @@ public class SimulatedAnnealing extends Algorithm {
 
     int nRepeat;
 
-    // Initial temperature
+
     double T;
-    // Decrease in temperature
     final double alpha;
 
+    /**
+     * Simulated Annealing constructor
+     * 
+     * @param problem       problem to be solved
+     * @param nRepeat       number of repetitions
+     * @param T             Initial temperature
+     * @param alpha         Decrease in temperature
+     */
     public SimulatedAnnealing(Problem problem, int nRepeat, double T, double alpha) {
         super(problem, nRepeat);
 
@@ -24,6 +31,15 @@ public class SimulatedAnnealing extends Algorithm {
         solution.initiateGrid();
     }
 
+    /**
+     * Simulated Annealing constructor
+     * 
+     * @param problem       problem to be solved
+     * @param nRepeat       number of repetitions
+     * @param T             Initial temperature
+     * @param alpha         Decrease in temperature
+     * @param solution      solution for the problem
+     */
     public SimulatedAnnealing(Problem problem, int nRepeat, double T, double alpha, Individual solution) {
         super(problem, nRepeat, solution);
 
@@ -32,6 +48,9 @@ public class SimulatedAnnealing extends Algorithm {
         this.alpha = alpha;
     }
 
+    /**
+     * Function that solves the problem
+     */
     public void solve() {
 
         this.startProgressBar();
