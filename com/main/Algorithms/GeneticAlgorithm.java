@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class that performs the Genetic Algorithm
@@ -55,21 +56,15 @@ public class GeneticAlgorithm extends Algorithm {
 
         Population newPopulation = new Population(fittestIndividuals);
 
-        ExecutorService es = Executors.newCachedThreadPool();
-        for (int i = 0; i < this.sizePopulation * (1 - percentageToKeep); i++) {
+        int bound = (int) (this.population.getFittestPopulation(percentageToMate).size() * percentageToMate);
 
-            int bound = (int) (this.sizePopulation * percentageToMate);
+        for (int i = 0; i < this.sizePopulation * (1 - percentageToKeep); i++) {
 
             Individual parent1 = this.population.getFittestPopulation(percentageToMate).get(rand.nextInt(bound));
             Individual parent2 = this.population.getFittestPopulation(percentageToMate).get(rand.nextInt(bound));
-
-            es.execute(() -> {
-                        Individual offspring = parent1.crossOver(parent2);
-                        newPopulation.addIndividual(offspring);
-                    }
-            );
+            Individual offspring = parent1.crossOver(parent2);
+            newPopulation.addIndividual(offspring);
         }
-        es.shutdown();
 
         //Elitism Keep the percentage of IndividualsToKeep
         for (int i = 0; i < this.sizePopulation * (1 - percentageToMutate); i++) {
