@@ -1,14 +1,14 @@
 package com.main.Algorithms;
 
 import com.main.Model.Problem;
-
 import java.util.Random;
 
+/**
+ * Class that performs the Simulated Annealing Algorithm
+ * */
 public class SimulatedAnnealing extends Algorithm {
 
     int nRepeat;
-
-
     double T;
     final double alpha;
 
@@ -49,7 +49,7 @@ public class SimulatedAnnealing extends Algorithm {
     }
 
     /**
-     * Function that solves the problem
+     * Solves the problem employing the Simulated Annealing Algorithm
      */
     public void solve() {
 

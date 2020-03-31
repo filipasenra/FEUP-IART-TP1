@@ -1,15 +1,12 @@
 package com.main.Algorithms;
 
-import com.main.Model.CityPlan;
 import com.main.Model.Problem;
-import javafx.util.Pair;
-
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Random;
-import java.util.concurrent.*;
-import java.util.stream.Collectors;
 
+/**
+ * Class that performs the Genetic Algorithm
+ * */
 public class GeneticAlgorithm extends Algorithm {
 
     //variables declaration
@@ -45,11 +42,9 @@ public class GeneticAlgorithm extends Algorithm {
     }
 
     /**
-     * Function that performs the iteration
-     * 
-     * @return      true if the operation is successfull
+     * Performs an iteration of the Genetic Algorithm
      */
-    private boolean performIteration() {
+    private void performIteration() {
 
         Random rand = new Random();
 
@@ -78,12 +73,10 @@ public class GeneticAlgorithm extends Algorithm {
 
         this.population = newPopulation;
         this.population.sortPopulation();
-
-        return false;
     }
 
     /**
-     * Function that solves the problem
+     * Solves the problem employing the Genetic Algorithm
      */
     public void solve() {
 

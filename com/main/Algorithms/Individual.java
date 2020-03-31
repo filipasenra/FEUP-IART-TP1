@@ -2,9 +2,11 @@ package com.main.Algorithms;
 
 import com.main.Model.*;
 import javafx.util.Pair;
-
 import java.util.*;
 
+/**
+ * Class that represents an Individual (for the algorithms)
+ * */
 public class Individual extends CityPlan implements Cloneable {
 
     /**
@@ -50,7 +52,7 @@ public class Individual extends CityPlan implements Cloneable {
     }
 
     /**
-     * Function that crosses over two individuals
+     * Crosses over two individuals
      * 
      * @param mutatedIndividual             mutated individual
      * @param currentAbsoluteLocation       current absolute location
@@ -95,7 +97,7 @@ public class Individual extends CityPlan implements Cloneable {
     }
 
     /**
-     * Function that mutates an individual
+     * Mutates an individual
      */
     public void mutate() {
 
@@ -124,7 +126,7 @@ public class Individual extends CityPlan implements Cloneable {
     }
 
     /**
-     * Function that adds a project with collisions
+     * Adds a project and eliminates possible collisions
      * 
      * @param project       project to be added
      * @param location      location to add the project
@@ -170,7 +172,7 @@ public class Individual extends CityPlan implements Cloneable {
     }
 
     /**
-     * Function that erases collisions
+     * Erases collision at a certain location
      * 
      * @param location      location of the collision to erase
      */
@@ -208,7 +210,7 @@ public class Individual extends CityPlan implements Cloneable {
     }
 
     /**
-     * Methods that allows the comparison individuals
+     * Allows the comparison of two individuals
      */
     @Override
     public boolean equals(Object obj) {

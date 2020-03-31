@@ -1,15 +1,16 @@
 package com.main.Model;
 
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 
+/**
+ * Class that represents a Project
+ * */
 public class Project {
     int nProject;
     int rows; 
-    int columns; 
-    // lines describing the plan of the building (one row after another from row 0 to row hp hp ­ 1)
-    private ArrayList<Pair<Integer, Integer>> occupiedCells = new ArrayList<>();
+    int columns;
+    private ArrayList<Pair<Integer, Integer>> occupiedCells; //Location of occupied cells (row, col)
 
     /**
      * Project constructor
@@ -27,7 +28,7 @@ public class Project {
     }
 
     /**
-     * Function that returns the number of the project
+     * Returns the number of the project
      * 
      * @return number of the project
      */
@@ -36,7 +37,7 @@ public class Project {
     }
 
     /**
-     * Function that returns the occupied cells
+     * Returns the occupied cells
      * 
      * @return occupied cells
      */
@@ -45,7 +46,7 @@ public class Project {
     }
 
     /**
-     * Function that returns the number of rows
+     * Returns the number of rows
      * 
      * @return number of rows
      */
@@ -54,7 +55,7 @@ public class Project {
     }
 
     /**
-     * Function that returns the number of columns
+     * Returns the number of columns
      * 
      * @return number of columns
      */

@@ -1,11 +1,10 @@
 package com.main.Algorithms;
 
 import com.main.Model.Problem;
-import com.main.Model.Project;
-import javafx.util.Pair;
 
-import java.util.Random;
-
+/**
+ * Class that performs the Hill Climbing Algorithm
+ * */
 public class HillClimbing extends Algorithm{
 
     int nRepeat;
@@ -39,7 +38,7 @@ public class HillClimbing extends Algorithm{
     }
 
     /**
-     * Function that solves the problem
+     * Solves the problem employing the Hill Climbing Algorithm
      */
     public void solve(){
 

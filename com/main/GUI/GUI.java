@@ -10,6 +10,9 @@ import javafx.util.Pair;
 import java.io.*;
 import java.util.Hashtable;
 
+/**
+ * Class that Handles all the output of the results file
+ * */
 public class GUI {
 
     File yourFile;
@@ -32,7 +35,7 @@ public class GUI {
     }
 
     /**
-     * Function that created the header for the html documment
+     * Creates the header for the html document
      * 
      * @throws IOException
      */
@@ -49,7 +52,7 @@ public class GUI {
     }
 
     /**
-     * Function that created the footer for the html documment
+     * Creates the footer for the html document
      * 
      * @throws IOException
      */
@@ -60,7 +63,7 @@ public class GUI {
     }
 
     /**
-     * Function that makes the legend of the results
+     * Makes the legend for the results
      * 
      * @param inputfile         input file 
      * @throws IOException
@@ -85,9 +88,9 @@ public class GUI {
     }
 
     /**
-     * Function that makes the algorithm 
+     * Creates the output of an Algorithm
      * 
-     * @param algorithm         algorithm to be performed
+     * @param algorithm         algorithm to be displayed
      * @param title             name of the algorithm 
      * @throws IOException
      */
@@ -103,9 +106,9 @@ public class GUI {
     }
 
     /**
-     * Function that makes an individual
+     * Creates the output of an Individual/Solution
      * 
-     * @param individual        individual
+     * @param individual        individual to be displayed
      * @param title             name of the individual
      * @throws IOException
      */
@@ -149,7 +152,7 @@ public class GUI {
     }
 
     /**
-     * Function that allows close up
+     * Function that closes the BufferedWriter
      * 
      * @throws IOException
      */
@@ -160,7 +163,7 @@ public class GUI {
     }
 
     /**
-     * Function that returns yourFile
+     * Function that returns the file to which the GUI is writing to
      * 
      * @return      yourFile
      */

@@ -6,6 +6,7 @@ import com.main.Parser.Parser;
 
 import java.io.IOException;
 
+//Type of algorithm to use
 enum Type {
     ALL,
     GENETIC,
@@ -16,16 +17,16 @@ enum Type {
 
 public class Main {
 
-    static String inputFile;
-    static Type typeToPerform;
-    static int nRepeat;
-    static int size_population;
-    static double percentage_to_keep;
-    static double percentage_to_mate;
-    static double percentage_to_mutate;
-    static double T;
-    static double alpha;
-    static boolean is_tabu_search_random = false;
+    static String inputFile;    //Path to the input file
+    static Type typeToPerform;  //Type of algorithm to perform
+    static int nRepeat;         //Number of iterations
+    static int size_population; //Population Size (Genetic)
+    static double percentage_to_keep;  //Percentage of the population to remain unaltered to the next generation (Genetic)
+    static double percentage_to_mate;  //Percentage of the population to mate to create the next generation (Genetic)
+    static double percentage_to_mutate;//Percentage of the population that should be mutated (introduces diversity into the population) (Genetic)
+    static double T;      //Initial Temperature (Simulated Annealing or/and Tabu Search)
+    static double alpha;  //Rate to which the temperature decreases (Simulated Annealing or/and Tabu Search)
+    static boolean is_tabu_search_random = false;  //Whether Tabu Search should introduce random solutions or not
 
 
     public static void main(String[] args) throws IOException {
@@ -75,6 +76,7 @@ public class Main {
             tabuSearchRandom.solve();
         }
 
+        //Creating the output file
         GUI gui = new GUI(parser.getProblem(), "results.html");
 
         gui.makeHeader();
@@ -105,6 +107,7 @@ public class Main {
 
     }
 
+    //Parsing input arguments
     static private boolean parseArgs(String[] args) {
 
         if (args.length != 3 && args.length != 5 && args.length != 6 && args.length != 7 && args.length != 8) {

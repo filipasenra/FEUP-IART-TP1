@@ -1,9 +1,11 @@
 package com.main.Model;
 
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 
+/**
+ * Class that represents a Residential Project
+ * */
 public class ResidentialProject extends Project {
     int capacity; //residential capacity of the building
 
@@ -11,9 +13,9 @@ public class ResidentialProject extends Project {
     * Utility Project constructor 
     *
     * @param  nProject   number of the project
-    * @param  rows  number of rows
-    * @param  columns   number of columns
-    * @param  capacity  residential capacity of the building
+    * @param  rows       number of rows
+    * @param  columns    number of columns
+    * @param  capacity   residential capacity of the building
     * @param  occupiedCells   array with the occupied cells
     *
     */
@@ -23,7 +25,7 @@ public class ResidentialProject extends Project {
     }
 
     /**
-     * Function that returns the residential capacity of the building
+     * Returns the residential capacity of the building
      * 
      * @return residential capacity of the building
      */

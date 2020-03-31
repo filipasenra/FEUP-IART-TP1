@@ -4,6 +4,9 @@ import com.main.Model.Problem;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * Class that performs the TabuSearch Algorithm
+ * */
 public class TabuSearch extends Algorithm{
 
     LinkedList<Individual> memory = new LinkedList<>();
@@ -11,6 +14,7 @@ public class TabuSearch extends Algorithm{
 
     int nRepeat;
 
+    //Variable that represents if the Tabu Search will accept some random solutions or not
     boolean random = false;
 
     // Initial temperature
@@ -35,10 +39,10 @@ public class TabuSearch extends Algorithm{
      * Tabu Search constructor
      * 
      * @param problem       problem to be solved
-     * @param random        boolean that tells if its random
+     * @param random        represents if the Tabu Search will accept some random solutions or not
      * @param nRepeat       number of repetitions
-     * @param T             Initial temperature     
-     * @param alpha         Decrease in temperature
+     * @param T             initial temperature
+     * @param alpha         decrease in temperature
      */
     public TabuSearch(Problem problem, boolean random, int nRepeat, double T, double alpha) {
         this(problem, nRepeat);
@@ -53,10 +57,10 @@ public class TabuSearch extends Algorithm{
      * Tabu Search constructor
      * 
      * @param problem       problem to be solved
-     * @param random        boolean that tells if its random
+     * @param random        represents if the Tabu Search will accept some random solutions or not
      * @param nRepeat       number of repetitions
-     * @param T             Initial temperature     
-     * @param alpha         Decrease in temperature
+     * @param T             initial temperature
+     * @param alpha         decrease in temperature
      * @param solution      solution for the problem
      */
     public TabuSearch(Problem problem, boolean random, int nRepeat, double T, double alpha, Individual solution) {
@@ -70,7 +74,7 @@ public class TabuSearch extends Algorithm{
 
 
     /**
-     * Function that solves the problem
+     * Solves the problem employing the Tabu Search Algorithm
      */
     public void solve() {
 

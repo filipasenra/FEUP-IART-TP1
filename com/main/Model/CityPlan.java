@@ -1,17 +1,18 @@
 package com.main.Model;
 
 import javafx.util.Pair;
-
 import java.util.*;
-
 import static java.lang.Math.abs;
 
+/**
+ * Class that represents a City Plan
+ * */
 public class CityPlan {
 
     protected Problem problem;
-    protected Hashtable<Pair<Integer, Integer>, Integer> gridMap = new Hashtable<>();
-    protected Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionUtility = new Hashtable<>();
-    protected Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionResidential = new Hashtable<>();
+    protected Hashtable<Pair<Integer, Integer>, Integer> gridMap = new Hashtable<>();  //Holds the occupied cells (key = location, value = number of the project)
+    protected Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionUtility = new Hashtable<>(); //Holds the position of left up corner of the utility projects in the plan
+    protected Hashtable<Pair<Integer, Integer>, Integer> mapAbsolutePositionResidential = new Hashtable<>(); //Holds the position of left up corner of the residential projects in the plan
     protected int fitness = 0;
 
     //Pair<Row, Col>
@@ -43,7 +44,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that gives the initial solution (randomly generated), initiating the grid
+     * Initializes the plan (randomly generated) (initializes the grid and the other maps)
      */
     public void initiateGrid() {
         Random rand = new Random();
@@ -69,7 +70,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that checks if a project is compatible
+     * Checks if a project in a certain position is compatible with the plan
      *  
      * @param project   project to check
      * @param location  desired location to insert the project on
@@ -102,7 +103,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that adds the project
+     * Adds the project to the plan (must be called after checkIfCompatible)
      * 
      * @param project       project to be added 
      * @param location      desired location to insert the project on
@@ -130,7 +131,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that erases the project from the solution
+     * Erases a project in a certain location from the plan (the project must exist in the location (location is the coordinates of the left up corner)
      * 
      * @param project   project to be erased
      * @param location  desired location to erase the project
@@ -158,7 +159,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that calculates the fitness of the solution
+     * Calculates the fitness of the plan
      */
     public void calculateFitness() {
         this.fitness = 0;
@@ -213,7 +214,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that adds the Fitness of this cell (if it has any unique amenity)
+     * Adds the Fitness of this cell (if it has any unique amenity to the project we are analyzing)
      * 
      * @param location                          location of the cell 
      * @param idResidential                     id of the residential
@@ -229,7 +230,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that checks if the location is an Utility Project
+     * Checks if there is a utility in the location
      * 
      * @param location      location to be checked
      * @return              if the location inserted is an utility project
@@ -246,7 +247,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that adds Utility to the Residential Building and adds its fitness
+     * Adds a Utility to a Residential Building and updates the fitness of the plan
      * 
      * @param idResidential                     residential to add utility into
      * @param idUtility                         utility to be added
@@ -267,7 +268,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that returns  the manhattan distance
+     * Returns the manhattan distance between two locations
      * 
      * @param location1     first location
      * @param location2     second location
@@ -279,7 +280,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that returns the fitness
+     * Returns the fitness of the plan
      * 
      * @return  fitness
      */
@@ -288,25 +289,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that returns the map of the absolute position utility
-     * 
-     * @return      map of the absolute position utility
-     */
-    public Hashtable<Pair<Integer, Integer>, Integer> getMapAbsolutePositionUtility() {
-        return mapAbsolutePositionUtility;
-    }
-
-    /**
-     * Function that returns the map absolute position residential
-     * 
-     * @return      map absolute position residential
-     */
-    public Hashtable<Pair<Integer, Integer>, Integer> getMapAbsolutePositionResidential() {
-        return mapAbsolutePositionResidential;
-    }
-
-    /**
-     * Function that returns the problem
+     * Returns the problem of the cityPlan
      * 
      * @return      problem
      */
@@ -315,7 +298,7 @@ public class CityPlan {
     }
 
     /**
-     * Function that returns the grid map
+     * Returns the grid map
      * 
      * @return      grid map
      */
@@ -329,7 +312,7 @@ public class CityPlan {
     @Override
     public String toString() {
 
-        String output = "";
+        StringBuilder output = new StringBuilder();
 
         for (int i=0; i<this.problem.getRows(); i++) {
             for (int j=0; j<this.problem.getColumns(); j++) {
@@ -337,13 +320,13 @@ public class CityPlan {
                 Pair<Integer, Integer> location = new Pair<>(i, j);
 
                 if(gridMap.containsKey(location))
-                    output += " " + gridMap.get(location) + " ";
+                    output.append(" ").append(gridMap.get(location)).append(" ");
                 else
-                    output += " . ";
+                    output.append(" . ");
             }
-            output += "\n";
+            output.append("\n");
         }
 
-        return output;
+        return output.toString();
     }
 }

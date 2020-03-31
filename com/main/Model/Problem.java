@@ -2,6 +2,9 @@ package com.main.Model;
 
 import java.util.ArrayList;
 
+/**
+ * Class that represents the problem to be resolved by a CityPlan
+ * */
 public class Problem {
 
     int rows;
@@ -24,7 +27,7 @@ public class Problem {
     }
 
     /**
-     * Function that allows a project to be added
+     * Adds a project to the problem
      * 
      * @param rp    project to be added
     */
@@ -33,7 +36,7 @@ public class Problem {
     }
 
     /**
-     * Function that returns the maximum walking distance
+     * Returns the maximum walking distance
      * 
      * @return      maximum walking distance
      */
@@ -42,7 +45,7 @@ public class Problem {
     }
 
     /**
-     * Function that returns the number of rows
+     * Returns the number of rows
      * 
      * @return      number of rows
      */
@@ -51,7 +54,7 @@ public class Problem {
     }
 
     /**
-     * Function that returns the numbe of columns
+     * Returns the number of columns
      * 
      * @return      number of columns
      */
@@ -60,7 +63,7 @@ public class Problem {
     }
 
     /**
-     * Function that returns the projects added to the problem
+     * Returns the projects added to the problem
      * 
      * @return      projects
      */

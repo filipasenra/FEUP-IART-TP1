@@ -1,9 +1,11 @@
 package com.main.Model;
 
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 
+/**
+ * Class that represents a Utility Project
+ * */
 public class UtilityProject extends Project {
     int typeOfService; //service provided by the utility building
 
@@ -11,8 +13,8 @@ public class UtilityProject extends Project {
     * Utility Project constructor 
     *
     * @param  nProject   number of the project
-    * @param  rows  number of rows
-    * @param  columns   number of columns
+    * @param  rows       number of rows
+    * @param  columns    number of columns
     * @param  typeOfService  the type of service of the project
     * @param  occupiedCells   array with the occupied cells
     *
@@ -23,7 +25,7 @@ public class UtilityProject extends Project {
     }
 
     /**
-    * Function that returns the type of service of this utility building
+    * Returns the type of service of this utility building provides
     *
     * @return type of service 
     */

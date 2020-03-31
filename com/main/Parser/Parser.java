@@ -4,17 +4,17 @@ import com.main.Model.Problem;
 import com.main.Model.ResidentialProject;
 import com.main.Model.UtilityProject;
 import javafx.util.Pair;
-
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
+/**
+ * Handles the Parsing of the input file
+ * */
 public class Parser {
-    String file;
-    Problem problem;
+    String file;     //path to the input file
+    Problem problem; //problem to be solved
 
     /**
     * Parser constructor. 
@@ -28,7 +28,7 @@ public class Parser {
     }
 
     /**
-    * Function that parses the file. 
+    * Parses the file.
     */
     public void parseFile() throws IOException {
 
@@ -51,7 +51,7 @@ public class Parser {
     }
 
     /**
-    * Function responsible for the parsing of the problem. 
+    * Parsing the essential info of the project
     *
     * @param  bufRead   buffer containing the file
     * @return           the number of building plans, returns -1 in case of ERROR
@@ -76,7 +76,7 @@ public class Parser {
     }
 
     /**
-    * Function responsible for the parsing of a building. 
+    * Parses a building
     *
     * @param  bufRead   buffer containing the file
     * @param  nProject  number of the project
@@ -128,7 +128,7 @@ public class Parser {
     }
 
     /**
-    * Function responsible for returning the problem 
+    * Returns the problem
     *
     * @return           problem
     */

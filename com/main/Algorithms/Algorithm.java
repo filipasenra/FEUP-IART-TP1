@@ -1,31 +1,34 @@
 package com.main.Algorithms;
 
 import com.main.Model.Problem;
-
-import java.text.DecimalFormat;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+
+/**
+ * Represents an Algorithm
+ *
+ * */
 public class Algorithm {
 
     protected Problem problem;
     protected Individual solution;
 
-    int n = 0;
-    int total_n;
+    int n = 0;    //current iteration
+    int total_n;  //total number of iterations
 
-    long elapsedTime = 0;
+    long elapsedTime = 0;  //elapsed time
 
-    ScheduledThreadPoolExecutor scheduler;
-    ScheduledFuture<?> advertiser;
+    ScheduledThreadPoolExecutor scheduler;  //scheduler for progress bar
+    ScheduledFuture<?> advertiser;          // advertiser for progress bar
 
     /**
      * Algorithm constructor
      * 
      * @param problem       problem to be solved
-     * @param total_n
+     * @param total_n       total number of iterations (for progress bar)
      */
     public Algorithm(Problem problem, int total_n) {
         this.problem = problem;
@@ -36,8 +39,8 @@ public class Algorithm {
      * Algorithm constructor
      * 
      * @param problem       problem to be solved
-     * @param total_n       
-     * @param solution      solution for the problem     
+     * @param total_n       total number of iterations (for progress bar)
+     * @param solution      solution for the problem
      */
     public Algorithm(Problem problem, int total_n, Individual solution) {
         this(problem, total_n);
